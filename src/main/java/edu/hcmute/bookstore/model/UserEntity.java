@@ -1,9 +1,12 @@
 package edu.hcmute.bookstore.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -21,9 +24,17 @@ public class UserEntity extends BaseEntity{
     private String user_status = "Active";
     private String user_role = "ROLE_USER";
 
+    // Relationship with table OrderEntity (1:n)
+    @OneToMany(mappedBy = "userEntities", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<OrderEntity> orderEntities =new ArrayList<>();
+
+    // Relationship with table CartEntity
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cartId", referencedColumnName = "id")
+    private CartEntity cartEntity; // mappedBy in table CartEntity
 
     // Constructor, Getter and Setter
-
     public UserEntity() {
     }
 

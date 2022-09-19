@@ -1,6 +1,9 @@
 package edu.hcmute.bookstore.model;
 
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,6 +15,20 @@ public class TransactionEntity extends BaseEntity{
     private String tran_status;
     private String tran_total_price;
 
+    //  Relationship with table Product
+    @ManyToOne(fetch = FetchType.EAGER)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "productId", nullable = false, referencedColumnName = "id")
+    private ProductEntity productEntity;
+
+    //  Relationship with table Order
+    @ManyToOne(fetch = FetchType.EAGER)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "orderId", nullable = false, referencedColumnName = "id")
+    private OrderEntity orderEntity;
+
+
+    // Constructor
     public TransactionEntity() {
     }
 

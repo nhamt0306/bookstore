@@ -1,6 +1,11 @@
 package edu.hcmute.bookstore.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -14,6 +19,20 @@ public class OrderEntity extends BaseEntity{
     private Long ord_ship_fee;
     private String ord_status;
 
+    // Relationship with table OrderDetailsEntity
+    @OneToMany(mappedBy = "orderEntity", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private List<TransactionEntity> orderDetailsEntities;
+
+    // Relationship with table UserEntity (n:1). Because 1 user can have n orders
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "userId", nullable = false, referencedColumnName = "id")
+    @JsonBackReference
+    //category_id is foreign key of SubCategory and referenced to id of table Category
+    private UserEntity userEntities; //Relative with MapBy in CategoryEntity
+
+
+    // Constructor
     public OrderEntity() {
     }
 
