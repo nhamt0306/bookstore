@@ -15,6 +15,11 @@ public class AuthorEntity extends BaseEntity{
     private String aut_address;
     private String aut_status = "Active";
 
+    // Relationship with table ProductEntity
+    @OneToOne(mappedBy = "authorEntity")
+    private ProductEntity productEntity;
+
+    // Constructor
     public AuthorEntity() {
     }
 

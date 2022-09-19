@@ -1,5 +1,8 @@
 package edu.hcmute.bookstore.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,7 +15,13 @@ public class CommentEntity extends BaseEntity{
     private String com_status = "Active";
     private Long com_rating;
 
+    // Relationship with table ProductEntity
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "productId", nullable = false, referencedColumnName = "id")
+    private ProductEntity productEntity;
 
+    // Constructor
     public CommentEntity(Long id, String com_content, String com_status, Long com_rating) {
         this.id = id;
         this.com_content = com_content;

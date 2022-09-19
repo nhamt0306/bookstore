@@ -1,5 +1,8 @@
 package edu.hcmute.bookstore.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,8 +15,13 @@ public class CategoryEntity extends BaseEntity{
     private Long cat_parent;
     private String pub_status = "Active";
 
-    //Constructor, Getter and Setter
+    // Relationship with table ProductEntity
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "productId", nullable = false, referencedColumnName = "id")
+    private ProductEntity productEntity;
 
+    //Constructor, Getter and Setter
     public CategoryEntity() {
     }
 

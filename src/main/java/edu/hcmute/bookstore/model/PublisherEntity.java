@@ -1,6 +1,8 @@
 package edu.hcmute.bookstore.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "publishers")
@@ -13,6 +15,10 @@ public class PublisherEntity extends BaseEntity{
     private String pub_email;
     private String pub_address;
     private String pub_status = "Active";
+
+    // Relationship with table PublisherEntity
+    @OneToMany(mappedBy = "publisherEntity", cascade = CascadeType.ALL)
+    private List<ProductEntity> productEntities =new ArrayList<>();
 
     //Constructor, Getter and Setter
 
