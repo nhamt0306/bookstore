@@ -9,18 +9,18 @@ import java.util.List;
 
 @Entity
 @Table(name = "orders")
-public class OrderEntity extends BaseEntity{
+public class OrderEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long ord_quantity;
-    private Long ord_price;
-    private String ord_note;
-    private Long ord_ship_fee;
-    private String ord_status;
+    private Long ordTotalPrice;
+    private String ordNote;
+    private Long ordShippingFee;
+    private String ordPayment;
+    private String ordStatus;
 
     // Relationship with table OrderDetailsEntity
-    @OneToMany(mappedBy = "orderEntity", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "orderEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<TransactionEntity> orderDetailsEntities;
 
     // Relationship with table UserEntity (n:1). Because 1 user can have n orders
@@ -36,15 +36,6 @@ public class OrderEntity extends BaseEntity{
     public OrderEntity() {
     }
 
-    public OrderEntity(Long id, Long ord_quantity, Long ord_price, String ord_note, Long ord_ship_fee, String ord_status) {
-        this.id = id;
-        this.ord_quantity = ord_quantity;
-        this.ord_price = ord_price;
-        this.ord_note = ord_note;
-        this.ord_ship_fee = ord_ship_fee;
-        this.ord_status = ord_status;
-    }
-
     public Long getId() {
         return id;
     }
@@ -53,19 +44,52 @@ public class OrderEntity extends BaseEntity{
         this.id = id;
     }
 
-    public Long getOrd_quantity() {
-        return ord_quantity;
+    public Long getOrdTotalPrice() {
+        return ordTotalPrice;
     }
 
-    public void setOrd_quantity(Long ord_quantity) {
-        this.ord_quantity = ord_quantity;
+    public void setOrdTotalPrice(Long ordTotalPrice) {
+        this.ordTotalPrice = ordTotalPrice;
     }
 
-    public Long getOrd_price() {
-        return ord_price;
+    public String getOrdNote() {
+        return ordNote;
     }
 
-    public void setOrd_price(Long ord_price) {
-        this.ord_price = ord_price;
+    public void setOrdNote(String ordNote) {
+        this.ordNote = ordNote;
+    }
+
+    public Long getOrdShippingFee() {
+        return ordShippingFee;
+    }
+
+    public void setOrdShippingFee(Long ordShippingFee) {
+        this.ordShippingFee = ordShippingFee;
+    }
+
+    public String getOrdPayment() {
+        return ordPayment;
+    }
+
+    public void setOrdPayment(String ordPayment) {
+        this.ordPayment = ordPayment;
+    }
+
+    public String getOrdStatus() {
+        return ordStatus;
+    }
+
+    public void setOrdStatus(String ordStatus) {
+        this.ordStatus = ordStatus;
+    }
+
+    public OrderEntity(Long id, Long ordTotalPrice, String ordNote, Long ordShippingFee, String ordPayment, String ordStatus) {
+        this.id = id;
+        this.ordTotalPrice = ordTotalPrice;
+        this.ordNote = ordNote;
+        this.ordShippingFee = ordShippingFee;
+        this.ordPayment = ordPayment;
+        this.ordStatus = ordStatus;
     }
 }

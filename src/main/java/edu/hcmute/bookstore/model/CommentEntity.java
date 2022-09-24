@@ -7,13 +7,14 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "comments")
-public class CommentEntity extends BaseEntity{
+public class CommentEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String com_content;
-    private String com_status = "Active";
-    private Long com_rating;
+    private String comContent;
+    private String comStatus = "Active";
+    private Long comRating;
+    private Long userId;
 
     // Relationship with table ProductEntity
     @ManyToOne(fetch = FetchType.LAZY)
@@ -22,11 +23,14 @@ public class CommentEntity extends BaseEntity{
     private ProductEntity productEntity;
 
     // Constructor
-    public CommentEntity(Long id, String com_content, String com_status, Long com_rating) {
+
+
+    public CommentEntity(Long id, String comContent, String comStatus, Long comRating, Long userId) {
         this.id = id;
-        this.com_content = com_content;
-        this.com_status = com_status;
-        this.com_rating = com_rating;
+        this.comContent = comContent;
+        this.comStatus = comStatus;
+        this.comRating = comRating;
+        this.userId = userId;
     }
 
     public CommentEntity() {
@@ -40,27 +44,35 @@ public class CommentEntity extends BaseEntity{
         this.id = id;
     }
 
-    public String getCom_content() {
-        return com_content;
+    public String getComContent() {
+        return comContent;
     }
 
-    public void setCom_content(String com_content) {
-        this.com_content = com_content;
+    public void setComContent(String comContent) {
+        this.comContent = comContent;
     }
 
-    public String getCom_status() {
-        return com_status;
+    public String getComStatus() {
+        return comStatus;
     }
 
-    public void setCom_status(String com_status) {
-        this.com_status = com_status;
+    public void setComStatus(String comStatus) {
+        this.comStatus = comStatus;
     }
 
-    public Long getCom_rating() {
-        return com_rating;
+    public Long getComRating() {
+        return comRating;
     }
 
-    public void setCom_rating(Long com_rating) {
-        this.com_rating = com_rating;
+    public void setComRating(Long comRating) {
+        this.comRating = comRating;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

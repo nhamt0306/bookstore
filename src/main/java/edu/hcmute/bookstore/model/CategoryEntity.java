@@ -7,13 +7,13 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "categories")
-public class CategoryEntity extends BaseEntity{
+public class CategoryEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String cat_name;
-    private Long cat_parent;
-    private String pub_status = "Active";
+    private String catName;
+    private Long catParent;
+    private String catStatus = "Active";
 
     // Relationship with table ProductEntity
     @ManyToOne(fetch = FetchType.LAZY)
@@ -25,21 +25,6 @@ public class CategoryEntity extends BaseEntity{
     public CategoryEntity() {
     }
 
-    public CategoryEntity(Long id, String cat_name, Long cat_parent, String pub_status) {
-        this.id = id;
-        this.cat_name = cat_name;
-        this.cat_parent = cat_parent;
-        this.pub_status = pub_status;
-    }
-
-    public String getPub_status() {
-        return pub_status;
-    }
-
-    public void setPub_status(String pub_status) {
-        this.pub_status = pub_status;
-    }
-
     public Long getId() {
         return id;
     }
@@ -48,19 +33,34 @@ public class CategoryEntity extends BaseEntity{
         this.id = id;
     }
 
-    public String getCat_name() {
-        return cat_name;
+    public String getCatName() {
+        return catName;
     }
 
-    public void setCat_name(String cat_name) {
-        this.cat_name = cat_name;
+    public void setCatName(String catName) {
+        this.catName = catName;
     }
 
-    public Long getCat_parent() {
-        return cat_parent;
+    public Long getCatParent() {
+        return catParent;
     }
 
-    public void setCat_parent(Long cat_parent) {
-        this.cat_parent = cat_parent;
+    public void setCatParent(Long catParent) {
+        this.catParent = catParent;
+    }
+
+    public String getCatStatus() {
+        return catStatus;
+    }
+
+    public void setCatStatus(String catStatus) {
+        this.catStatus = catStatus;
+    }
+
+    public CategoryEntity(Long id, String catName, Long catParent, String catStatus) {
+        this.id = id;
+        this.catName = catName;
+        this.catParent = catParent;
+        this.catStatus = catStatus;
     }
 }

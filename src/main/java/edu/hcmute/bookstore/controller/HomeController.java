@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path = "api/v1/home")
 public class HomeController {
     @GetMapping("")
-    public String getProduct()
-    {
+    public String getProduct() {
         return "Home";
     }
 }

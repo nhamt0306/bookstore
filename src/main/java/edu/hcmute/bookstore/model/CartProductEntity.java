@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "carts_products")
-public class CartProductEntity extends BaseEntity{
+public class CartProductEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

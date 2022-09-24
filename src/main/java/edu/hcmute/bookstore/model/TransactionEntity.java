@@ -8,12 +8,13 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "transactions")
-public class TransactionEntity extends BaseEntity{
+public class TransactionEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String tran_status;
-    private String tran_total_price;
+    private String tranStatus;
+    private Long tranUnitPrice;
+    private Long tranQuantity;
 
     //  Relationship with table Product
     @ManyToOne(fetch = FetchType.EAGER)
@@ -32,12 +33,6 @@ public class TransactionEntity extends BaseEntity{
     public TransactionEntity() {
     }
 
-    public TransactionEntity(Long id, String tran_status, String tran_total_price) {
-        this.id = id;
-        this.tran_status = tran_status;
-        this.tran_total_price = tran_total_price;
-    }
-
     public Long getId() {
         return id;
     }
@@ -46,19 +41,34 @@ public class TransactionEntity extends BaseEntity{
         this.id = id;
     }
 
-    public String getTran_status() {
-        return tran_status;
+    public String getTranStatus() {
+        return tranStatus;
     }
 
-    public void setTran_status(String tran_status) {
-        this.tran_status = tran_status;
+    public void setTranStatus(String tranStatus) {
+        this.tranStatus = tranStatus;
     }
 
-    public String getTran_total_price() {
-        return tran_total_price;
+    public Long getTranUnitPrice() {
+        return tranUnitPrice;
     }
 
-    public void setTran_total_price(String tran_total_price) {
-        this.tran_total_price = tran_total_price;
+    public void setTranUnitPrice(Long tranUnitPrice) {
+        this.tranUnitPrice = tranUnitPrice;
+    }
+
+    public Long getTranQuantity() {
+        return tranQuantity;
+    }
+
+    public void setTranQuantity(Long tranQuantity) {
+        this.tranQuantity = tranQuantity;
+    }
+
+    public TransactionEntity(Long id, String tranStatus, Long tranUnitPrice, Long tranQuantity) {
+        this.id = id;
+        this.tranStatus = tranStatus;
+        this.tranUnitPrice = tranUnitPrice;
+        this.tranQuantity = tranQuantity;
     }
 }

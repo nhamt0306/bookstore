@@ -6,48 +6,73 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class UserEntity extends BaseEntity{
+public class UserEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String user_name;
-    private String user_phone;
-    private String user_email;
-    private String user_address;
-    private String user_gender;
-    @JsonFormat(pattern="yyyy-MM-dd")
-    private Timestamp user_dob;
-    private String user_status = "Active";
-    private String user_role = "ROLE_USER";
+    private String userName;
+    private String userUsername;
+    private String userPhone;
+    private String userEmail;
+    private String userPassword;
+    private String userAddress;
+    private String userGender;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Timestamp userDob;
+    private String userStatus = "Active";
 
     // Relationship with table OrderEntity (1:n)
     @OneToMany(mappedBy = "userEntities", cascade = CascadeType.ALL)
     @JsonManagedReference
-    private List<OrderEntity> orderEntities =new ArrayList<>();
+    private List<OrderEntity> orderEntities = new ArrayList<>();
 
     // Relationship with table CartEntity
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cartId", referencedColumnName = "id")
     private CartEntity cartEntity; // mappedBy in table CartEntity
 
+    // Relationship with table WishList
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<WishListEntity> wishListEntities = new ArrayList<>();
+
+    //Ràng buộc quen hệ JPA data spring
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name= "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    Set<RoleEntity> roles = new HashSet<>();
+
+
     // Constructor, Getter and Setter
     public UserEntity() {
     }
 
-    public UserEntity(Long id, String user_name, String user_phone, String user_email, String user_address, String user_gender, Timestamp user_dob, String user_status, String user_role) {
+    public UserEntity(Long id, String userName, String userUsername, String userPhone, String userEmail, String userPassword, String userAddress, String userGender, Timestamp userDob, String userStatus) {
         this.id = id;
-        this.user_name = user_name;
-        this.user_phone = user_phone;
-        this.user_email = user_email;
-        this.user_address = user_address;
-        this.user_gender = user_gender;
-        this.user_dob = user_dob;
-        this.user_status = user_status;
-        this.user_role = user_role;
+        this.userName = userName;
+        this.userUsername = userUsername;
+        this.userPhone = userPhone;
+        this.userEmail = userEmail;
+        this.userPassword = userPassword;
+        this.userAddress = userAddress;
+        this.userGender = userGender;
+        this.userDob = userDob;
+        this.userStatus = userStatus;
+    }
+
+    public UserEntity(String name, String username, String email, String phonenumber, String encode) {
+        this.userName = name;
+        this.userUsername = userName;
+        this.userEmail = email;
+        this.userPhone = phonenumber;
+        this.userPassword = encode;
     }
 
     public Long getId() {
@@ -58,67 +83,84 @@ public class UserEntity extends BaseEntity{
         this.id = id;
     }
 
-    public String getUser_name() {
-        return user_name;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUser_name(String user_name) {
-        this.user_name = user_name;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public String getUser_phone() {
-        return user_phone;
+    public String getUserUsername() {
+        return userUsername;
     }
 
-    public void setUser_phone(String user_phone) {
-        this.user_phone = user_phone;
+    public void setUserUsername(String userUsername) {
+        this.userUsername = userUsername;
     }
 
-    public String getUser_email() {
-        return user_email;
+    public String getUserPhone() {
+        return userPhone;
     }
 
-    public void setUser_email(String user_email) {
-        this.user_email = user_email;
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
     }
 
-    public String getUser_address() {
-        return user_address;
+    public String getUserEmail() {
+        return userEmail;
     }
 
-    public void setUser_address(String user_address) {
-        this.user_address = user_address;
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
-    public String getUser_gender() {
-        return user_gender;
+    public String getUserPassword() {
+        return userPassword;
     }
 
-    public void setUser_gender(String user_gender) {
-        this.user_gender = user_gender;
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
     }
 
-    public Timestamp getUser_dob() {
-        return user_dob;
+    public String getUserAddress() {
+        return userAddress;
     }
 
-    public void setUser_dob(Timestamp user_dob) {
-        this.user_dob = user_dob;
+    public void setUserAddress(String userAddress) {
+        this.userAddress = userAddress;
     }
 
-    public String getUser_status() {
-        return user_status;
+    public String getUserGender() {
+        return userGender;
     }
 
-    public void setUser_status(String user_status) {
-        this.user_status = user_status;
+    public void setUserGender(String userGender) {
+        this.userGender = userGender;
     }
 
-    public String getUser_role() {
-        return user_role;
+    public Timestamp getUserDob() {
+        return userDob;
     }
 
-    public void setUser_role(String user_role) {
-        this.user_role = user_role;
+    public void setUserDob(Timestamp userDob) {
+        this.userDob = userDob;
+    }
+
+    public String getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(String userStatus) {
+        this.userStatus = userStatus;
+    }
+
+
+    public Set<RoleEntity> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<RoleEntity> roles) {
+        this.roles = roles;
     }
 }

@@ -6,7 +6,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "carts")
-public class CartEntity extends BaseEntity{
+public class CartEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,7 +17,7 @@ public class CartEntity extends BaseEntity{
 
     // Relationship with table CartProductEntity
     @OneToMany(mappedBy = "cartEntity", cascade = CascadeType.ALL)
-    private List<CartProductEntity> cartProductEntities =new ArrayList<>();
+    private List<CartProductEntity> cartProductEntities = new ArrayList<>();
 
     //Constructor
     public CartEntity(Long id) {

@@ -1,5 +1,6 @@
 package edu.hcmute.bookstore.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -13,31 +14,31 @@ public class ProductEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String pro_name;
-    private String pro_description;
-    private String pro_content;
-    private Long pro_price;
-    private Long pro_quantity;
-    private Long pro_sale;
-    private String pro_image;
-    private Long pro_avgRating;
-    private String pro_status = "Active";
+    private String proName;
+    private String proDescription;
+    private String proContent;
+    private Long proPrice;
+    private Long proQuantity;
+    private Long proSale;
+    private String proImage;
+    private Long proAvgRating;
+    private String proStatus = "Active";
 
     // Relationship with table TransactionEntity
     @OneToMany(mappedBy = "productEntity", cascade = CascadeType.ALL)
-    private List<TransactionEntity> transactionEntities =new ArrayList<>();
+    private List<TransactionEntity> transactionEntities = new ArrayList<>();
 
     // Relationship with table CartProductEntity
     @OneToMany(mappedBy = "productEntity", cascade = CascadeType.ALL)
-    private List<CartProductEntity> cartProductEntities =new ArrayList<>();
+    private List<CartProductEntity> cartProductEntities = new ArrayList<>();
 
-    // Relationship with table TypeEntity
+    // Relationship with table CategoryEntity
     @OneToMany(mappedBy = "productEntity", cascade = CascadeType.ALL)
-    private List<CategoryEntity> categoryEntities =new ArrayList<>();
+    private List<CategoryEntity> categoryEntities = new ArrayList<>();
 
-    // Relationship with table TypeEntity
+    // Relationship with table CommentEntity
     @OneToMany(mappedBy = "productEntity", cascade = CascadeType.ALL)
-    private List<CommentEntity> commentEntities =new ArrayList<>();
+    private List<CommentEntity> commentEntities = new ArrayList<>();
 
 
     // Relationship with table PublisherEntity
@@ -51,43 +52,26 @@ public class ProductEntity extends BaseEntity {
     @JoinColumn(name = "authorId", referencedColumnName = "id")
     private AuthorEntity authorEntity; // mappedBy in table AuthorEntity
 
+    // Relationship with table WishList
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<WishListEntity> wishListEntities = new ArrayList<>();
+
     // Constructor, Getter, Setter
     public ProductEntity() {
     }
 
-    public ProductEntity(Long id, String pro_name, String pro_description, String pro_content, Long pro_price, Long pro_quantity, String pro_image, String pro_status) {
+    public ProductEntity(Long id, String proName, String proDescription, String proContent, Long proPrice, Long proQuantity, Long proSale, String proImage, Long proAvgRating, String proStatus) {
         this.id = id;
-        this.pro_name = pro_name;
-        this.pro_description = pro_description;
-        this.pro_content = pro_content;
-        this.pro_price = pro_price;
-        this.pro_quantity = pro_quantity;
-        this.pro_image = pro_image;
-        this.pro_status = pro_status;
-    }
-
-    public Long getPro_quantity() {
-        return pro_quantity;
-    }
-
-    public void setPro_quantity(Long pro_quantity) {
-        this.pro_quantity = pro_quantity;
-    }
-
-    public String getPro_status() {
-        return pro_status;
-    }
-
-    public void setPro_status(String pro_status) {
-        this.pro_status = pro_status;
-    }
-
-    public String getPro_image() {
-        return pro_image;
-    }
-
-    public void setPro_image(String pro_image) {
-        this.pro_image = pro_image;
+        this.proName = proName;
+        this.proDescription = proDescription;
+        this.proContent = proContent;
+        this.proPrice = proPrice;
+        this.proQuantity = proQuantity;
+        this.proSale = proSale;
+        this.proImage = proImage;
+        this.proAvgRating = proAvgRating;
+        this.proStatus = proStatus;
     }
 
     public Long getId() {
@@ -98,35 +82,75 @@ public class ProductEntity extends BaseEntity {
         this.id = id;
     }
 
-    public String getPro_name() {
-        return pro_name;
+    public String getProName() {
+        return proName;
     }
 
-    public void setPro_name(String pro_name) {
-        this.pro_name = pro_name;
+    public void setProName(String proName) {
+        this.proName = proName;
     }
 
-    public String getPro_description() {
-        return pro_description;
+    public String getProDescription() {
+        return proDescription;
     }
 
-    public void setPro_description(String pro_description) {
-        this.pro_description = pro_description;
+    public void setProDescription(String proDescription) {
+        this.proDescription = proDescription;
     }
 
-    public String getPro_content() {
-        return pro_content;
+    public String getProContent() {
+        return proContent;
     }
 
-    public void setPro_content(String pro_content) {
-        this.pro_content = pro_content;
+    public void setProContent(String proContent) {
+        this.proContent = proContent;
     }
 
-    public Long getPro_price() {
-        return pro_price;
+    public Long getProPrice() {
+        return proPrice;
     }
 
-    public void setPro_price(Long pro_price) {
-        this.pro_price = pro_price;
+    public void setProPrice(Long proPrice) {
+        this.proPrice = proPrice;
+    }
+
+    public Long getProQuantity() {
+        return proQuantity;
+    }
+
+    public void setProQuantity(Long proQuantity) {
+        this.proQuantity = proQuantity;
+    }
+
+    public Long getProSale() {
+        return proSale;
+    }
+
+    public void setProSale(Long proSale) {
+        this.proSale = proSale;
+    }
+
+    public String getProImage() {
+        return proImage;
+    }
+
+    public void setProImage(String proImage) {
+        this.proImage = proImage;
+    }
+
+    public Long getProAvgRating() {
+        return proAvgRating;
+    }
+
+    public void setProAvgRating(Long proAvgRating) {
+        this.proAvgRating = proAvgRating;
+    }
+
+    public String getProStatus() {
+        return proStatus;
+    }
+
+    public void setProStatus(String proStatus) {
+        this.proStatus = proStatus;
     }
 }

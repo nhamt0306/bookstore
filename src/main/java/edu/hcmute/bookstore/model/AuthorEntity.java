@@ -4,16 +4,16 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "authors")
-public class AuthorEntity extends BaseEntity{
+public class AuthorEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String aut_name;
-    private String aut_phone;
-    private String aut_email;
-    private String aut_biography;
-    private String aut_address;
-    private String aut_status = "Active";
+    private String autName;
+    private String autPhone;
+    private String autEmail;
+    private String autBiography;
+    private String autAddress;
+    private String autStatus = "Active";
 
     // Relationship with table ProductEntity
     @OneToOne(mappedBy = "authorEntity")
@@ -23,14 +23,14 @@ public class AuthorEntity extends BaseEntity{
     public AuthorEntity() {
     }
 
-    public AuthorEntity(Long id, String aut_name, String aut_phone, String aut_email, String aut_biography, String aut_address, String aut_status) {
+    public AuthorEntity(Long id, String autName, String autPhone, String autEmail, String autBiography, String autAddress, String autStatus) {
         this.id = id;
-        this.aut_name = aut_name;
-        this.aut_phone = aut_phone;
-        this.aut_email = aut_email;
-        this.aut_biography = aut_biography;
-        this.aut_address = aut_address;
-        this.aut_status = aut_status;
+        this.autName = autName;
+        this.autPhone = autPhone;
+        this.autEmail = autEmail;
+        this.autBiography = autBiography;
+        this.autAddress = autAddress;
+        this.autStatus = autStatus;
     }
 
     public Long getId() {
@@ -41,43 +41,51 @@ public class AuthorEntity extends BaseEntity{
         this.id = id;
     }
 
-    public String getAut_name() {
-        return aut_name;
+    public String getAutName() {
+        return autName;
     }
 
-    public void setAut_name(String aut_name) {
-        this.aut_name = aut_name;
+    public void setAutName(String autName) {
+        this.autName = autName;
     }
 
-    public String getAut_phone() {
-        return aut_phone;
+    public String getAutPhone() {
+        return autPhone;
     }
 
-    public void setAut_phone(String aut_phone) {
-        this.aut_phone = aut_phone;
+    public void setAutPhone(String autPhone) {
+        this.autPhone = autPhone;
     }
 
-    public String getAut_email() {
-        return aut_email;
+    public String getAutEmail() {
+        return autEmail;
     }
 
-    public void setAut_email(String aut_email) {
-        this.aut_email = aut_email;
+    public void setAutEmail(String autEmail) {
+        this.autEmail = autEmail;
     }
 
-    public String getAut_biography() {
-        return aut_biography;
+    public String getAutBiography() {
+        return autBiography;
     }
 
-    public void setAut_biography(String aut_biography) {
-        this.aut_biography = aut_biography;
+    public void setAutBiography(String autBiography) {
+        this.autBiography = autBiography;
     }
 
-    public String getAut_address() {
-        return aut_address;
+    public String getAutAddress() {
+        return autAddress;
     }
 
-    public void setAut_address(String aut_address) {
-        this.aut_address = aut_address;
+    public void setAutAddress(String autAddress) {
+        this.autAddress = autAddress;
+    }
+
+    public String getAutStatus() {
+        return autStatus;
+    }
+
+    public void setAutStatus(String autStatus) {
+        this.autStatus = autStatus;
     }
 }
