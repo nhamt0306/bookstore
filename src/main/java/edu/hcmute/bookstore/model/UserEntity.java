@@ -16,11 +16,11 @@ public class UserEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String userName;
-    private String userUsername;
+    private String username;
+    private String fullName;
     private String userPhone;
     private String userEmail;
-    private String userPassword;
+    private String password;
     private String userAddress;
     private String userGender;
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -54,13 +54,13 @@ public class UserEntity extends BaseEntity {
     public UserEntity() {
     }
 
-    public UserEntity(Long id, String userName, String userUsername, String userPhone, String userEmail, String userPassword, String userAddress, String userGender, Timestamp userDob, String userStatus) {
+    public UserEntity(Long id, String userName, String fullName, String userPhone, String userEmail, String password, String userAddress, String userGender, Timestamp userDob, String userStatus) {
         this.id = id;
-        this.userName = userName;
-        this.userUsername = userUsername;
+        this.username = userName;
+        this.fullName = fullName;
         this.userPhone = userPhone;
         this.userEmail = userEmail;
-        this.userPassword = userPassword;
+        this.password = password;
         this.userAddress = userAddress;
         this.userGender = userGender;
         this.userDob = userDob;
@@ -68,11 +68,11 @@ public class UserEntity extends BaseEntity {
     }
 
     public UserEntity(String name, String username, String email, String phonenumber, String encode) {
-        this.userName = name;
-        this.userUsername = userName;
+        this.username = username;
+        this.fullName = name;
         this.userEmail = email;
         this.userPhone = phonenumber;
-        this.userPassword = encode;
+        this.password = encode;
     }
 
     public Long getId() {
@@ -83,20 +83,28 @@ public class UserEntity extends BaseEntity {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String userName) {
+        this.username = userName;
     }
 
-    public String getUserUsername() {
-        return userUsername;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setUserUsername(String userUsername) {
-        this.userUsername = userUsername;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getUserPhone() {
@@ -115,13 +123,7 @@ public class UserEntity extends BaseEntity {
         this.userEmail = userEmail;
     }
 
-    public String getUserPassword() {
-        return userPassword;
-    }
 
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
-    }
 
     public String getUserAddress() {
         return userAddress;

@@ -80,14 +80,20 @@ public class AuthenticationController {
         return new ResponseEntity<>(new ResponseMessage("Tạo user thành công!"), HttpStatus.OK);
     }
 
+
     @PostMapping("/signin")
     public ResponseEntity<?> login(@RequestBody SignInForm signInForm){
+        // UsernamePasswordAuthenticationToken sẽ kiểm tra thông tin người dùng
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(signInForm.getUsername(), signInForm.getPassword())
         );
+        // Set token lên hệ thống
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        // Tạo jwt token
         String token = jwtProvider.createToken(authentication);
+        // Lấy ra thông tin người dùng hiện tại trên hệ thống
         UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
+        // Trả về kết quả.
         return ResponseEntity.ok(new JwtResponse(token, userPrinciple.getName(), userPrinciple.getAuthorities()));
     }
 }

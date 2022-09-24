@@ -23,7 +23,7 @@ public class UserDetailService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity user = userRepository.findByUserUsername(username).orElseThrow(()-> new UsernameNotFoundException("Tài khoản không tồn tại!"));
+        UserEntity user = userRepository.findByUsername(username).orElseThrow(()-> new UsernameNotFoundException("Tài khoản không tồn tại!"));
         return UserPrinciple.build(user);
     }
 
@@ -42,13 +42,13 @@ public class UserDetailService implements UserDetailsService {
             userName = principle.toString();
         }
         //kiem tra neu userName ton tai trong DB thi gan user = ham tim kiem trong DB theo userName do
-        if(userRepository.existsByUserUsername(userName)){
+        if(userRepository.existsByUsername(userName)){
             user = userService.findByUsername(userName);
         } else {
             //Neu chua ton tai thi tra ve 1 the hien cua lop User thong qua Optional.of
             user = Optional.of(new UserEntity());
             //set cho no 1 cai ten user an danh Day la truong hop ma tuong tac qua dang nhap kieu FB hay GG
-            user.get().setUserUsername("Anonymous");
+            user.get().setUsername("Anonymous");
         }
         return user.get();
     }

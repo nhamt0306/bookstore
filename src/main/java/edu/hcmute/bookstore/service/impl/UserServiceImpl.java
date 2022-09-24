@@ -16,12 +16,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<UserEntity> findByUsername(String username) {
-        return userRepository.findByUserUsername(username);
+        return userRepository.findByUsername(username);
     }
 
     @Override
     public Boolean existsByUsername(String username) {
-        return userRepository.existsByUserUsername(username);
+        return userRepository.existsByUsername(username);
     }
 
     @Override
