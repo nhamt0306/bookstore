@@ -124,7 +124,6 @@ public class UserEntity extends BaseEntity {
     }
 
 
-
     public String getUserAddress() {
         return userAddress;
     }

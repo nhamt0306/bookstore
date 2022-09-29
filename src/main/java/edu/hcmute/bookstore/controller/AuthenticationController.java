@@ -41,7 +41,7 @@ public class AuthenticationController {
     AuthenticationManager authenticationManager;
     @Autowired
     JwtProvider jwtProvider;
-    @PostMapping("/signup")
+    @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody SignUpForm signUpForm){
         if (userService.existsByUsername(signUpForm.getUsername())){
             return new ResponseEntity<>(new ResponseMessage("Tên tài khoản đã tồn tại! Vui lòng thử lại"), HttpStatus.OK);
@@ -62,12 +62,6 @@ public class AuthenticationController {
                     );
                     roles.add(adminRole);
                     break;
-                case "SELLER":
-                    RoleEntity sellerRole = roleService.findByName(RoleName.SELLER).orElseThrow(
-                            ()-> new RuntimeException("Role không hợp lệ!")
-                    );
-                    roles.add(sellerRole);
-                    break;
                 default:
                     RoleEntity userRole = roleService.findByName(RoleName.USER).orElseThrow(
                             ()-> new RuntimeException("Role không hợp lệ!")
@@ -81,7 +75,7 @@ public class AuthenticationController {
     }
 
 
-    @PostMapping("/signin")
+    @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody SignInForm signInForm){
         // UsernamePasswordAuthenticationToken sẽ kiểm tra thông tin người dùng
         Authentication authentication = authenticationManager.authenticate(

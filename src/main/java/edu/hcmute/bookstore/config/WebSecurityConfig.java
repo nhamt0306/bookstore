@@ -1,5 +1,6 @@
 package edu.hcmute.bookstore.config;
 
+import edu.hcmute.bookstore.model.RoleName;
 import edu.hcmute.bookstore.security.jwt.JwtEntryPoint;
 import edu.hcmute.bookstore.security.jwt.JwtTokenFilter;
 import edu.hcmute.bookstore.security.principal.UserDetailService;
@@ -16,6 +17,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import static edu.hcmute.bookstore.model.RoleName.*;
 
 @Configuration
 @EnableWebSecurity
@@ -46,7 +49,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.cors().and().csrf().disable().
-                authorizeRequests().antMatchers("/**").permitAll()
+                authorizeRequests().antMatchers("/login","/register").permitAll()
+                .antMatchers().hasAnyRole(ADMIN.name(), USER.name()) //Các API cần đăng nhập bằng tk admin, user
+                .antMatchers("/admin/**").hasAuthority("ADMIN") //Các API cần đăng nhập bằng tk admin
+                .antMatchers("/user/**").hasAuthority(USER.name()) //Các API cần đăng nhập bằng tk user
                 .anyRequest().authenticated()
                 .and().exceptionHandling()
                 .authenticationEntryPoint(jwtEntryPoint)

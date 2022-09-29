@@ -13,4 +13,7 @@ public interface UserService {
     void deleteById(Long id);
     Optional<UserEntity> findById(Long id);
     List<UserEntity> findAll();
+    Optional<UserEntity> findByUserEmail(String email);//Tìm User thông qua username
+    Boolean upRole(String email);
+    Boolean downRole(String email);
 }
