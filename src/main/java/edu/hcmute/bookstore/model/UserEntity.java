@@ -42,7 +42,7 @@ public class UserEntity extends BaseEntity {
     @JsonManagedReference
     private List<WishListEntity> wishListEntities = new ArrayList<>();
 
-    //Ràng buộc quen hệ JPA data spring
+    //Ràng buộc quan hệ JPA data spring
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name= "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
