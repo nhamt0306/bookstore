@@ -16,4 +16,7 @@ public interface UserService {
     Optional<UserEntity> findByUserEmail(String email);//Tìm User thông qua username
     Boolean upRole(String email);
     Boolean downRole(String email);
+    UserEntity changeUserPasswordByEmail(String email, String newPassword);
+    String getCheckValidEmailOTP(String username, String emailRegister);
+
 }

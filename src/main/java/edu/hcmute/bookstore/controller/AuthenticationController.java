@@ -1,5 +1,10 @@
 package edu.hcmute.bookstore.controller;
 
+import edu.hcmute.bookstore.config.EmailTemplate;
+import edu.hcmute.bookstore.config.LocalVariable;
+import edu.hcmute.bookstore.dto.EmailRecoveryDTO;
+import edu.hcmute.bookstore.dto.OtpSendMailResponseDTO;
+import edu.hcmute.bookstore.exception.BadRequest;
 import edu.hcmute.bookstore.mapper.JwtResponse;
 import edu.hcmute.bookstore.mapper.ResponseMessage;
 import edu.hcmute.bookstore.mapper.SignInForm;
@@ -10,6 +15,7 @@ import edu.hcmute.bookstore.model.UserEntity;
 import edu.hcmute.bookstore.security.jwt.JwtProvider;
 import edu.hcmute.bookstore.security.principal.UserDetailService;
 import edu.hcmute.bookstore.security.principal.UserPrinciple;
+import edu.hcmute.bookstore.service.EmailSenderService;
 import edu.hcmute.bookstore.service.impl.RoleServiceImpl;
 import edu.hcmute.bookstore.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +30,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -41,6 +48,10 @@ public class AuthenticationController {
     AuthenticationManager authenticationManager;
     @Autowired
     JwtProvider jwtProvider;
+    @Autowired
+    private EmailSenderService emailSenderService;
+
+
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody SignUpForm signUpForm){
         if (userService.existsByUsername(signUpForm.getUsername())){
@@ -90,4 +101,31 @@ public class AuthenticationController {
         // Trả về kết quả.
         return ResponseEntity.ok(new JwtResponse(token, userPrinciple.getName(), userPrinciple.getAuthorities()));
     }
+
+    @GetMapping(path = "/verifyEmail/getOtp")
+    public OtpSendMailResponseDTO verifyEmail(@RequestBody EmailRecoveryDTO email)
+    {
+        if(email.getEmail() == null) {
+            throw new BadRequest("need ?email= param");
+        }
+        UserEntity user = userService.findByUserEmail(email.getEmail()).get(); //Kiem tra user voi email khoi phuc
+        String otpCode = LocalVariable.GetOTP();
+        try {
+            sendVerifyEmail(email.getEmail(), user.getUsername(), otpCode);
+        } catch (MessagingException e) {
+            throw new BadRequest("gmail send fail");
+        }
+
+        return new OtpSendMailResponseDTO("Valid", otpCode);
+    }
+
+    public void sendVerifyEmail(String addressGmail, String username, String otpCode) throws MessagingException {
+        emailSenderService.sendAsHTML(
+                addressGmail,
+                "Bạn đã Yêu cầu xác thực email cho tài khoản " + username,
+                EmailTemplate.TemplateCheckValidEmail(username, otpCode)
+        );
+    }
+
+
 }

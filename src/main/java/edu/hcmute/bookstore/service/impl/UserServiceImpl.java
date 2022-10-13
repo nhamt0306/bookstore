@@ -1,13 +1,20 @@
 package edu.hcmute.bookstore.service.impl;
 
+import edu.hcmute.bookstore.config.EmailTemplate;
+import edu.hcmute.bookstore.config.LocalVariable;
+import edu.hcmute.bookstore.exception.BadRequest;
+import edu.hcmute.bookstore.exception.ResourceNotFoundException;
 import edu.hcmute.bookstore.model.RoleEntity;
 import edu.hcmute.bookstore.model.UserEntity;
 import edu.hcmute.bookstore.repository.RoleRepository;
 import edu.hcmute.bookstore.repository.UserRepository;
+import edu.hcmute.bookstore.service.EmailSenderService;
 import edu.hcmute.bookstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +26,11 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
     @Autowired
     RoleRepository roleRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private EmailSenderService emailSenderService;
+
 
     @Override
     public Optional<UserEntity> findByUsername(String username) {
@@ -101,5 +113,43 @@ public class UserServiceImpl implements UserService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public UserEntity changeUserPasswordByEmail(String email, String newPassword) {
+        UserEntity userChangePassword = userRepository.findByUserEmail(email)
+                .map(user -> {
+                    user.setPassword(passwordEncoder.encode(newPassword));
+                    return userRepository.save(user);
+                }).orElseThrow(() -> new ResourceNotFoundException("Cannot found user with email = " + email));
+        return userChangePassword;
+    }
+
+    @Override
+    public String getCheckValidEmailOTP(String username, String emailRegister) {
+        UserEntity userByUsername = userRepository.findByUsername(username).get();
+        System.out.println(userByUsername);
+        if(userByUsername != null) {
+            throw new BadRequest("Tên người dùng bị trùng, vui lòng nhập lại!");
+        }
+        Optional<UserEntity> userByEmail = userRepository.findByUserEmail(emailRegister);
+        if(userByEmail.isPresent()) {
+            throw new BadRequest("Email bị trùng, vui lòng nhập lại!");
+        }
+        String otpCode = LocalVariable.GetOTP();
+        try {
+            sendCheckEmailByOTP(emailRegister, username, otpCode);
+        } catch (MessagingException e) {
+            throw new BadRequest("gmail send fail");
+        }
+        return otpCode;
+    }
+
+    public void sendCheckEmailByOTP(String addressGmail, String username, String otpCode) throws MessagingException {
+        emailSenderService.sendAsHTML(
+                addressGmail,
+                "Xác thực Gmail cho tài khoản " + username,
+                EmailTemplate.TemplateCheckValidEmail(username, otpCode)
+        );
     }
 }
