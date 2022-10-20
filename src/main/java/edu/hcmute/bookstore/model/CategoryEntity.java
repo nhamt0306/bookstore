@@ -4,6 +4,8 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "categories")
@@ -16,10 +18,9 @@ public class CategoryEntity extends BaseEntity {
     private String catStatus = "Active";
 
     // Relationship with table ProductEntity
-    @ManyToOne(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "productId", nullable = false, referencedColumnName = "id")
-    private ProductEntity productEntity;
+    @OneToMany(mappedBy = "categoryEntity", cascade = CascadeType.ALL)
+    private List<ProductEntity> productEntities = new ArrayList<>();
+
 
     //Constructor, Getter and Setter
     public CategoryEntity() {

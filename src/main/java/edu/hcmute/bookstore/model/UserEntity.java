@@ -123,6 +123,13 @@ public class UserEntity extends BaseEntity {
         this.userEmail = userEmail;
     }
 
+    public CartEntity getCartEntity() {
+        return cartEntity;
+    }
+
+    public void setCartEntity(CartEntity cartEntity) {
+        this.cartEntity = cartEntity;
+    }
 
     public String getUserAddress() {
         return userAddress;

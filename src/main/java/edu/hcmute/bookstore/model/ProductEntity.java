@@ -33,8 +33,14 @@ public class ProductEntity extends BaseEntity {
     private List<CartProductEntity> cartProductEntities = new ArrayList<>();
 
     // Relationship with table CategoryEntity
-    @OneToMany(mappedBy = "productEntity", cascade = CascadeType.ALL)
-    private List<CategoryEntity> categoryEntities = new ArrayList<>();
+//    @OneToMany(mappedBy = "productEntity", cascade = CascadeType.ALL)
+//    private List<CategoryEntity> categoryEntities = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "category_id", nullable = false, referencedColumnName = "id")
+    private CategoryEntity categoryEntity;
+
 
     // Relationship with table CommentEntity
     @OneToMany(mappedBy = "productEntity", cascade = CascadeType.ALL)

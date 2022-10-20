@@ -9,6 +9,7 @@ import edu.hcmute.bookstore.mapper.JwtResponse;
 import edu.hcmute.bookstore.mapper.ResponseMessage;
 import edu.hcmute.bookstore.mapper.SignInForm;
 import edu.hcmute.bookstore.mapper.SignUpForm;
+import edu.hcmute.bookstore.model.CartEntity;
 import edu.hcmute.bookstore.model.RoleEntity;
 import edu.hcmute.bookstore.model.RoleName;
 import edu.hcmute.bookstore.model.UserEntity;
@@ -16,6 +17,7 @@ import edu.hcmute.bookstore.security.jwt.JwtProvider;
 import edu.hcmute.bookstore.security.principal.UserDetailService;
 import edu.hcmute.bookstore.security.principal.UserPrinciple;
 import edu.hcmute.bookstore.service.EmailSenderService;
+import edu.hcmute.bookstore.service.impl.CartServiceImpl;
 import edu.hcmute.bookstore.service.impl.RoleServiceImpl;
 import edu.hcmute.bookstore.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +46,8 @@ public class AuthenticationController {
     RoleServiceImpl roleService;
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    CartServiceImpl cartService;
     @Autowired
     AuthenticationManager authenticationManager;
     @Autowired
@@ -81,7 +85,9 @@ public class AuthenticationController {
             }
         });
         user.setRoles(roles);
+        user.setCartEntity(new CartEntity(user.getId()));
         userService.save(user);
+        cartService.save(user.getId());
         return new ResponseEntity<>(new ResponseMessage("Tạo user thành công!"), HttpStatus.OK);
     }
 
