@@ -24,6 +24,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public CategoryEntity findCategoryById(Long id) {
+        return categoryRepository.findById(id).get();
+    }
+
+    @Override
     public CategoryEntity save(CategoryEntity categoryEntity) {
         return categoryRepository.save(categoryEntity);
     }
@@ -34,5 +39,10 @@ public class CategoryServiceImpl implements CategoryService {
         categoryEntity.setCatStatus(LocalVariable.disableStatus);
         categoryEntity.setUpdate_at(new Timestamp(System.currentTimeMillis()));
         categoryRepository.save(categoryEntity);
+    }
+
+    @Override
+    public List<CategoryEntity> findAllCategoryActive() {
+        return categoryRepository.findAllByStatus(LocalVariable.activeStatus);
     }
 }
