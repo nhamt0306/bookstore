@@ -43,6 +43,6 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryEntity> findAllCategoryActive() {
-        return categoryRepository.findAllByStatus(LocalVariable.activeStatus);
+        return categoryRepository.findAllByCatStatus(LocalVariable.activeStatus);
     }
 }

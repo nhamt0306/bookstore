@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> {
     List<CategoryEntity> findAllByCatParent(Long id);
-    List<CategoryEntity> findAllByStatus(String status);
+    List<CategoryEntity> findAllByCatStatus(String status);
 }
