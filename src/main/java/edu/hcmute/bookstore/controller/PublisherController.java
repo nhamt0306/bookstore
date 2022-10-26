@@ -2,9 +2,12 @@ package edu.hcmute.bookstore.controller;
 
 import edu.hcmute.bookstore.config.LocalVariable;
 import edu.hcmute.bookstore.dto.AuthorDTO;
+import edu.hcmute.bookstore.dto.PubliserDTO;
 import edu.hcmute.bookstore.model.AuthorEntity;
+import edu.hcmute.bookstore.model.CategoryEntity;
 import edu.hcmute.bookstore.model.PublisherEntity;
 import edu.hcmute.bookstore.service.impl.AuthorServiceImpl;
+import edu.hcmute.bookstore.service.impl.CategoryServiceImpl;
 import edu.hcmute.bookstore.service.impl.PublisherServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +23,7 @@ import java.text.ParseException;
 public class PublisherController {
     @Autowired
     PublisherServiceImpl publisherService;
+
     @GetMapping("/publisher/getAll")
     public ResponseEntity<?> getAllPublisher()
     {
@@ -38,7 +42,7 @@ public class PublisherController {
     }
 
     @PostMapping("/admin/publisher/create")
-    public Object createPublisher(@RequestBody PublisherEntity publisherEntity) throws ParseException {
+    public Object createPublisher(@RequestBody PubliserDTO publisherEntity) throws ParseException {
         PublisherEntity publisher = new PublisherEntity();
         publisher.setPubName(publisherEntity.getPubName());
         publisher.setPubPhone(publisherEntity.getPubPhone());
@@ -46,6 +50,7 @@ public class PublisherController {
         publisher.setPubEmail(publisherEntity.getPubEmail());
         publisher.setUpdate_at(new Timestamp(System.currentTimeMillis()));
         publisher.setCreate_at(new Timestamp(System.currentTimeMillis()));
+
         return publisherService.save(publisher);
     }
 

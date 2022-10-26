@@ -80,6 +80,62 @@ public class ProductEntity extends BaseEntity {
         this.proStatus = proStatus;
     }
 
+    public List<TransactionEntity> getTransactionEntities() {
+        return transactionEntities;
+    }
+
+    public void setTransactionEntities(List<TransactionEntity> transactionEntities) {
+        this.transactionEntities = transactionEntities;
+    }
+
+    public List<CartProductEntity> getCartProductEntities() {
+        return cartProductEntities;
+    }
+
+    public void setCartProductEntities(List<CartProductEntity> cartProductEntities) {
+        this.cartProductEntities = cartProductEntities;
+    }
+
+    public CategoryEntity getCategoryEntity() {
+        return categoryEntity;
+    }
+
+    public void setCategoryEntity(CategoryEntity categoryEntity) {
+        this.categoryEntity = categoryEntity;
+    }
+
+    public List<CommentEntity> getCommentEntities() {
+        return commentEntities;
+    }
+
+    public void setCommentEntities(List<CommentEntity> commentEntities) {
+        this.commentEntities = commentEntities;
+    }
+
+    public PublisherEntity getPublisherEntity() {
+        return publisherEntity;
+    }
+
+    public void setPublisherEntity(PublisherEntity publisherEntity) {
+        this.publisherEntity = publisherEntity;
+    }
+
+    public AuthorEntity getAuthorEntity() {
+        return authorEntity;
+    }
+
+    public void setAuthorEntity(AuthorEntity authorEntity) {
+        this.authorEntity = authorEntity;
+    }
+
+    public List<WishListEntity> getWishListEntities() {
+        return wishListEntities;
+    }
+
+    public void setWishListEntities(List<WishListEntity> wishListEntities) {
+        this.wishListEntities = wishListEntities;
+    }
+
     public Long getId() {
         return id;
     }

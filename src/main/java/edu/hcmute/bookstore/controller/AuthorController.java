@@ -44,7 +44,7 @@ public class AuthorController {
         authorEntity.setAutAddress(authorDTO.getAutAddress());
         authorEntity.setAutPhone(authorDTO.getAutPhone());
         authorEntity.setAutBiography(authorDTO.getAutBiography());
-        authorEntity.setAutAddress(authorDTO.getAutAddress());
+        authorEntity.setAutEmail(authorDTO.getAutEmail());
         authorEntity.setUpdate_at(new Timestamp(System.currentTimeMillis()));
         authorEntity.setCreate_at(new Timestamp(System.currentTimeMillis()));
         return authorService.save(authorEntity);
