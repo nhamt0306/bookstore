@@ -2,6 +2,7 @@ package edu.hcmute.bookstore.controller;
 
 import edu.hcmute.bookstore.config.LocalVariable;
 import edu.hcmute.bookstore.dto.ProductDTO;
+import edu.hcmute.bookstore.mapper.ProductMapper;
 import edu.hcmute.bookstore.model.AuthorEntity;
 import edu.hcmute.bookstore.model.CategoryEntity;
 import edu.hcmute.bookstore.model.ProductEntity;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 @CrossOrigin(origins = "*")   //Để ghép AuthController với các controller khác
 @RequestMapping
@@ -30,16 +33,24 @@ public class ProductController {
     CategoryServiceImpl categoryService;
     @Autowired
     AuthorServiceImpl authorService;
-    @GetMapping("/product/getAll")
-    public ResponseEntity<?> getAllProduct()
+    @GetMapping("/product/getAll/{pageNo}/{pageSize}")
+    public ResponseEntity<?> getAllProduct(@PathVariable Integer pageNo, @PathVariable Integer pageSize)
     {
-        return ResponseEntity.ok(productService.getAllProduct());
+        List<ProductMapper> productMapperList = new ArrayList<>();
+        for(ProductEntity productEntity : productService.getPagingProduct(pageNo, pageSize))
+        {
+            ProductMapper productMapper = new ProductMapper(productEntity.getProName(), productEntity.getProDescription(), productEntity.getProContent(), productEntity.getProPrice(), productEntity.getProQuantity(), productEntity.getProSale(), productEntity.getProImage(), productEntity.getCategoryEntity(), productEntity.getAuthorEntity(), productEntity.getPublisherEntity());
+            productMapperList.add(productMapper);
+        }
+        return ResponseEntity.ok(productMapperList);
     }
 
     @GetMapping("/product/{id}")
     public ResponseEntity<?> getProductById(@PathVariable long id){
         try {
-            return ResponseEntity.ok(productService.findProductById(id));
+            ProductEntity productEntity = productService.findProductById(id);
+            ProductMapper productMapper = new ProductMapper(productEntity.getProName(), productEntity.getProDescription(), productEntity.getProContent(), productEntity.getProPrice(), productEntity.getProQuantity(), productEntity.getProSale(), productEntity.getProImage(), productEntity.getCategoryEntity(), productEntity.getAuthorEntity(), productEntity.getPublisherEntity());
+            return ResponseEntity.ok(productMapper);
         }
         catch (Exception e)
         {
@@ -67,6 +78,7 @@ public class ProductController {
         productEntity.setCategoryEntity(categoryEntity);
         productEntity.setAuthorEntity(authorEntity);
         productEntity.setPublisherEntity(publisher);
+
         return productService.save(productEntity);
     }
 

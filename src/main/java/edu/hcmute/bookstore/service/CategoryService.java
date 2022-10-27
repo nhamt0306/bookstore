@@ -11,4 +11,5 @@ public interface CategoryService {
     CategoryEntity save(CategoryEntity categoryEntity);
     void deleteCategoryById(Long id);
     List<CategoryEntity> findAllCategoryActive();
+    List<CategoryEntity> findAllPaging(Integer pageNumber, Integer pageSize);
 }

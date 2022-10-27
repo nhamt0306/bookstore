@@ -1,5 +1,7 @@
 package edu.hcmute.bookstore.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -16,7 +18,8 @@ public class AuthorEntity extends BaseEntity {
     private String autStatus = "Active";
 
     // Relationship with table ProductEntity
-    @OneToOne(mappedBy = "authorEntity")
+    @OneToOne(mappedBy = "authorEntity", fetch = FetchType.LAZY)
+    @JsonIgnore
     private ProductEntity productEntity;
 
     // Constructor

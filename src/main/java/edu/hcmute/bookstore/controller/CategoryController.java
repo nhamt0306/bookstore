@@ -5,12 +5,18 @@ import edu.hcmute.bookstore.dto.CategoryDTO;
 import edu.hcmute.bookstore.model.CategoryEntity;
 import edu.hcmute.bookstore.service.impl.CategoryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.attribute.standard.PageRanges;
 import java.sql.Timestamp;
 import java.text.ParseException;
+import java.util.Map;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*")   //Để ghép AuthController với các controller khác
 @RequestMapping
@@ -19,10 +25,10 @@ public class CategoryController {
     @Autowired
     CategoryServiceImpl categorySerivce;
 
-    @GetMapping("/category/getAll")
-    public ResponseEntity<?> getAllCategory()
+    @GetMapping("/category/getAll/{pageNo}/{pageSize}")
+    public ResponseEntity<?> getAllCategory(@PathVariable Integer pageNo, @PathVariable Integer pageSize)
     {
-        return ResponseEntity.ok(categorySerivce.getAllCategory());
+        return ResponseEntity.ok(categorySerivce.findAllPaging(pageNo, pageSize));
     }
 
     @GetMapping("/category/getAllActive")

@@ -5,6 +5,9 @@ import edu.hcmute.bookstore.model.CategoryEntity;
 import edu.hcmute.bookstore.repository.CategoryRepository;
 import edu.hcmute.bookstore.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -44,5 +47,12 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryEntity> findAllCategoryActive() {
         return categoryRepository.findAllByCatStatus(LocalVariable.activeStatus);
+    }
+
+    @Override
+    public List<CategoryEntity> findAllPaging(Integer pageNumber, Integer pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<CategoryEntity> page = categoryRepository.findAll(pageable);
+        return page.toList();
     }
 }
