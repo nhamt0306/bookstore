@@ -6,6 +6,7 @@ import edu.hcmute.bookstore.model.ProductEntity;
 import edu.hcmute.bookstore.model.PublisherEntity;
 
 public class ProductMapper {
+    private Long id;
     private String proName;
     private String proDescription;
     private String proContent;
@@ -17,7 +18,8 @@ public class ProductMapper {
     private String author;
     private String publisher;
 
-    public ProductMapper(String proName, String proDescription, String proContent, Long proPrice, Long proQuantity, Long proSale, String proImage, CategoryEntity category, AuthorEntity author, PublisherEntity publisher) {
+    public ProductMapper(Long id, String proName, String proDescription, String proContent, Long proPrice, Long proQuantity, Long proSale, String proImage, CategoryEntity category, AuthorEntity author, PublisherEntity publisher) {
+        this.id = id;
         this.proName = proName;
         this.proDescription = proDescription;
         this.proContent = proContent;
@@ -44,6 +46,14 @@ public class ProductMapper {
 
     public Long getProPrice() {
         return proPrice;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getProQuantity() {

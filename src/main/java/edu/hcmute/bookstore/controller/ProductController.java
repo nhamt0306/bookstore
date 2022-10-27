@@ -39,7 +39,7 @@ public class ProductController {
         List<ProductMapper> productMapperList = new ArrayList<>();
         for(ProductEntity productEntity : productService.getPagingProduct(pageNo, pageSize))
         {
-            ProductMapper productMapper = new ProductMapper(productEntity.getProName(), productEntity.getProDescription(), productEntity.getProContent(), productEntity.getProPrice(), productEntity.getProQuantity(), productEntity.getProSale(), productEntity.getProImage(), productEntity.getCategoryEntity(), productEntity.getAuthorEntity(), productEntity.getPublisherEntity());
+            ProductMapper productMapper = new ProductMapper(productEntity.getId(),productEntity.getProName(), productEntity.getProDescription(), productEntity.getProContent(), productEntity.getProPrice(), productEntity.getProQuantity(), productEntity.getProSale(), productEntity.getProImage(), productEntity.getCategoryEntity(), productEntity.getAuthorEntity(), productEntity.getPublisherEntity());
             productMapperList.add(productMapper);
         }
         return ResponseEntity.ok(productMapperList);
@@ -49,7 +49,7 @@ public class ProductController {
     public ResponseEntity<?> getProductById(@PathVariable long id){
         try {
             ProductEntity productEntity = productService.findProductById(id);
-            ProductMapper productMapper = new ProductMapper(productEntity.getProName(), productEntity.getProDescription(), productEntity.getProContent(), productEntity.getProPrice(), productEntity.getProQuantity(), productEntity.getProSale(), productEntity.getProImage(), productEntity.getCategoryEntity(), productEntity.getAuthorEntity(), productEntity.getPublisherEntity());
+            ProductMapper productMapper = new ProductMapper(productEntity.getId(),productEntity.getProName(), productEntity.getProDescription(), productEntity.getProContent(), productEntity.getProPrice(), productEntity.getProQuantity(), productEntity.getProSale(), productEntity.getProImage(), productEntity.getCategoryEntity(), productEntity.getAuthorEntity(), productEntity.getPublisherEntity());
             return ResponseEntity.ok(productMapper);
         }
         catch (Exception e)
