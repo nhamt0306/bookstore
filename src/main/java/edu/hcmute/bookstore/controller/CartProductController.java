@@ -57,6 +57,12 @@ public class CartProductController {
         return "Add to cart success!";
     }
 
+    @PostMapping("/user/cart/increase/{id}")
+    public Object increaseQuantityProductInCart(@PathVariable long id) throws ParseException {
+        cartProductService.increaseQuantity(id, userDetailService.getCurrentUser().getId());
+        return "Update product success!";
+    }
+
     @DeleteMapping("/user/cart/{id}")
     public ResponseEntity<?> deleteProductById(@PathVariable long id)
     {

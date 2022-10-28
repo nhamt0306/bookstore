@@ -9,4 +9,5 @@ public interface CartProductService {
     List<CartProductEntity> getAllProductByCartId(Long cartId);
     void deleteProductInCart(Long cartId, Long productId);
     Boolean existsByProduct(Long productId, Long cartId);
+    CartProductEntity increaseQuantity(Long productId, Long cartId);
 }

@@ -42,4 +42,11 @@ public class CartProductServiceImpl implements CartProductService {
     public Boolean existsByProduct(Long productId, Long cartId) {
         return cartProductRepository.existsByProductEntityIdAndCartEntityId(productId, cartId);
     }
+
+    @Override
+    public CartProductEntity increaseQuantity(Long productId, Long cartId) {
+        CartProductEntity cartProduct = cartProductRepository.findByCartEntityIdAndProductEntityId(cartId, productId);
+        cartProduct.setQuantity(cartProduct.getQuantity() + 1);
+        return cartProductRepository.save(cartProduct);
+    }
 }
