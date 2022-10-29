@@ -6,6 +6,8 @@ import edu.hcmute.bookstore.service.OrderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class OrderDetailServiceImpl implements OrderDetailService {
     @Autowired
@@ -13,5 +15,10 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     @Override
     public TransactionEntity save(TransactionEntity transactionEntity) {
         return transactionRepository.save(transactionEntity);
+    }
+
+    @Override
+    public List<TransactionEntity> getAllByOrderId(Long orderId) {
+        return transactionRepository.findAllByOrderEntityId(orderId);
     }
 }
