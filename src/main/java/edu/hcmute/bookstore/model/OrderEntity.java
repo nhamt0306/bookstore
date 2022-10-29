@@ -18,6 +18,8 @@ public class OrderEntity extends BaseEntity {
     private Long ordShippingFee;
     private String ordPayment;
     private String ordStatus;
+    private String ordAddress;
+    private String ordPhone;
 
     // Relationship with table OrderDetailsEntity
     @OneToMany(mappedBy = "orderEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -91,5 +93,47 @@ public class OrderEntity extends BaseEntity {
         this.ordShippingFee = ordShippingFee;
         this.ordPayment = ordPayment;
         this.ordStatus = ordStatus;
+    }
+
+    public String getOrdAddress() {
+        return ordAddress;
+    }
+
+    public void setOrdAddress(String ordAddress) {
+        this.ordAddress = ordAddress;
+    }
+
+    public String getOrdPhone() {
+        return ordPhone;
+    }
+
+    public void setOrdPhone(String ordPhone) {
+        this.ordPhone = ordPhone;
+    }
+
+    public List<TransactionEntity> getOrderDetailsEntities() {
+        return orderDetailsEntities;
+    }
+
+    public void setOrderDetailsEntities(List<TransactionEntity> orderDetailsEntities) {
+        this.orderDetailsEntities = orderDetailsEntities;
+    }
+
+    public UserEntity getUserEntities() {
+        return userEntities;
+    }
+
+    public void setUserEntities(UserEntity userEntities) {
+        this.userEntities = userEntities;
+    }
+
+    public OrderEntity(Long ordTotalPrice, String ordNote, Long ordShippingFee, String ordPayment, String ordStatus, String ordAddress, String ordPhone) {
+        this.ordTotalPrice = ordTotalPrice;
+        this.ordNote = ordNote;
+        this.ordShippingFee = ordShippingFee;
+        this.ordPayment = ordPayment;
+        this.ordStatus = ordStatus;
+        this.ordAddress = ordAddress;
+        this.ordPhone = ordPhone;
     }
 }

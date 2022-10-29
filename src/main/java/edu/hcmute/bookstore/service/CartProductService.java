@@ -2,6 +2,7 @@ package edu.hcmute.bookstore.service;
 
 import edu.hcmute.bookstore.model.CartProductEntity;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface CartProductService {

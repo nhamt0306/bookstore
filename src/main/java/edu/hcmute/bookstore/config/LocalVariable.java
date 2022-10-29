@@ -8,6 +8,7 @@ public class LocalVariable {
     public static String GetOTP() {
         return String.format("%06d", new Random().nextInt(999999));
     }
+    public static final int OrderPagingLimit = 9000;
 
     //Category message
     public static final String messageDeleteCatSuccess = "Delete category success!";
