@@ -12,7 +12,7 @@ public class TransactionEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String tranStatus;
+    private String tranStatus = "Active";
     private Long tranUnitPrice;
     private Long tranQuantity;
 
@@ -63,6 +63,33 @@ public class TransactionEntity extends BaseEntity {
 
     public void setTranQuantity(Long tranQuantity) {
         this.tranQuantity = tranQuantity;
+    }
+
+    public TransactionEntity(Long tranUnitPrice, Long tranQuantity) {
+        this.tranUnitPrice = tranUnitPrice;
+        this.tranQuantity = tranQuantity;
+    }
+
+    public TransactionEntity(Long tranUnitPrice, Long tranQuantity, ProductEntity productEntity) {
+        this.tranUnitPrice = tranUnitPrice;
+        this.tranQuantity = tranQuantity;
+        this.productEntity = productEntity;
+    }
+
+    public ProductEntity getProductEntity() {
+        return productEntity;
+    }
+
+    public void setProductEntity(ProductEntity productEntity) {
+        this.productEntity = productEntity;
+    }
+
+    public OrderEntity getOrderEntity() {
+        return orderEntity;
+    }
+
+    public void setOrderEntity(OrderEntity orderEntity) {
+        this.orderEntity = orderEntity;
     }
 
     public TransactionEntity(Long id, String tranStatus, Long tranUnitPrice, Long tranQuantity) {
