@@ -1,5 +1,6 @@
 package edu.hcmute.bookstore.controller;
 
+import edu.hcmute.bookstore.config.LocalVariable;
 import edu.hcmute.bookstore.model.OrderEntity;
 import edu.hcmute.bookstore.model.ProductEntity;
 import edu.hcmute.bookstore.model.TransactionEntity;
@@ -10,10 +11,13 @@ import edu.hcmute.bookstore.service.impl.OrderDetailServiceImpl;
 import edu.hcmute.bookstore.service.impl.OrderServiceImpl;
 import edu.hcmute.bookstore.service.impl.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -88,5 +92,54 @@ public class OrderController {
             cartProductService.deleteProductInCart(user.getId(), transactionEntity.getProductEntity().getId());
         }
         return "create order success";
+    }
+
+    @PostMapping("/user/order/cancel")
+    public Object cancelOrder(@RequestBody Map<String, String> req) {
+        OrderEntity orderEntity = orderService.findOrderById(Long.parseLong(req.get("id")));
+        if (orderEntity.getOrdStatus().equals("PENDING")) // Nếu tình trạng là đang đợi thì mới được hủy
+        {
+            orderEntity.setOrdStatus(LocalVariable.cancelMessage);
+            orderEntity.setUpdate_at(new Timestamp(System.currentTimeMillis()));
+            orderService.addNewOrder(orderEntity);
+            return "cancel order success";
+        }
+        return "cancel order fail";
+    }
+
+    @PostMapping("/user/order/accept")
+    public Object acceptOrder(@RequestBody Map<String, String> req) {
+        OrderEntity orderEntity = orderService.findOrderById(Long.parseLong(req.get("id")));
+        if (orderEntity.getOrdStatus().equals("PENDING") || orderEntity.getOrdStatus().equals("PAID")) // Nếu tình trạng là đang đợi thì mới được hủy
+        {
+            orderEntity.setOrdStatus(LocalVariable.doneMessage);
+            orderEntity.setUpdate_at(new Timestamp(System.currentTimeMillis()));
+            orderService.addNewOrder(orderEntity);
+            return "update status order with done success";
+        }
+        return "update status order with done fail";
+    }
+    @GetMapping("/get_deliver_fee")
+    public Object getShippingFee(@RequestParam String f, @RequestParam String t, @RequestParam String w) {
+        String httpRequest = "Can't get deliver fee, Server Busy";
+
+        try {
+            URL url = new URL("http://www.vnpost.vn/vi-vn/tra-cuu-gia-cuoc?from=" + f + "&to=" + t + "&weight=" + w);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            String line;
+            InputStreamReader streamReader = new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8);
+            BufferedReader bufferedReader = new BufferedReader(streamReader);
+            StringBuilder resHtml = new StringBuilder();
+            while ((line = bufferedReader.readLine()) != null) {
+                resHtml.append(line);
+            }
+            bufferedReader.close();
+            httpRequest = resHtml.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return httpRequest;
     }
 }
