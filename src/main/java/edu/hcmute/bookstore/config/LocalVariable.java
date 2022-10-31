@@ -14,6 +14,8 @@ public class LocalVariable {
     public static final String messageDeleteCatSuccess = "Delete category success!";
     public static final String messageCannotFindCat = "Cannot find category with id = ";
 
+    // User
+    public static final String messageCannotFindUser = "Cannot find user with id = ";
     //Status deliver message
     public static final String cancelMessage = "CANCELED"; // Đã hủy
     public static final String doneMessage = "DONE"; // Hoàn tất
