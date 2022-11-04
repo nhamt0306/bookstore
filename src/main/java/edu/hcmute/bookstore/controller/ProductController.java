@@ -88,4 +88,15 @@ public class ProductController {
         productService.delete(id);
         return ResponseEntity.ok(LocalVariable.messageDeleteCatSuccess);
     }
+    @GetMapping("/admin/product/getAll")
+    public ResponseEntity<?> deleteProductById()
+    {
+        List<ProductMapper> productMapperList = new ArrayList<>();
+        for(ProductEntity productEntity : productService.getAllProduct())
+        {
+            ProductMapper productMapper = new ProductMapper(productEntity.getId(),productEntity.getProName(), productEntity.getProDescription(), productEntity.getProContent(), productEntity.getProPrice(), productEntity.getProQuantity(), productEntity.getProSale(), productEntity.getProImage(), productEntity.getCategoryEntity(), productEntity.getAuthorEntity(), productEntity.getPublisherEntity());
+            productMapperList.add(productMapper);
+        }
+        return ResponseEntity.ok(productMapperList);
+    }
 }
