@@ -88,7 +88,7 @@ public class ProductController {
         productService.delete(id);
         return ResponseEntity.ok(LocalVariable.messageDeleteCatSuccess);
     }
-    @GetMapping("/admin/product/getAll")
+    @GetMapping("/product/getAll")
     public ResponseEntity<?> deleteProductById()
     {
         List<ProductMapper> productMapperList = new ArrayList<>();
