@@ -42,7 +42,9 @@ public class UserController {
     //Get current user
     @GetMapping("/user/profile")
     public ResponseEntity<?> getCurUser(){
-        return ResponseEntity.ok(userDetailService.getCurrentUser());
+        UserEntity userEntity = userDetailService.getCurrentUser();
+        UserEntity respone = new UserEntity(userEntity.getId(), userEntity.getUsername(), userEntity.getFullName(), userEntity.getUserPhone(), userEntity.getUserEmail(), userEntity.getPassword(), userEntity.getUserAddress(), userEntity.getUserGender(), userEntity.getUserDob(),userEntity.getUserStatus());
+        return ResponseEntity.ok(respone);
     }
 
     @GetMapping("admin/users/{id}")
