@@ -50,4 +50,15 @@ public class CartProductServiceImpl implements CartProductService {
         cartProduct.setQuantity(cartProduct.getQuantity() + 1);
         return cartProductRepository.save(cartProduct);
     }
+
+    @Override
+    public CartProductEntity decreaseQuantity(Long productId, Long cartId) {
+        CartProductEntity cartProduct = cartProductRepository.findByCartEntityIdAndProductEntityId(cartId, productId);
+        if (cartProduct.getQuantity() == 1)
+        {
+            cartProductRepository.deleteByCartEntityIdAndProductEntityId(cartId, productId);
+        }
+        cartProduct.setQuantity(cartProduct.getQuantity() - 1);
+        return cartProductRepository.save(cartProduct);
+    }
 }

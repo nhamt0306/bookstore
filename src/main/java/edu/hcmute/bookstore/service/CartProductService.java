@@ -11,4 +11,5 @@ public interface CartProductService {
     void deleteProductInCart(Long cartId, Long productId);
     Boolean existsByProduct(Long productId, Long cartId);
     CartProductEntity increaseQuantity(Long productId, Long cartId);
+    CartProductEntity decreaseQuantity(Long productId, Long cartId);
 }
