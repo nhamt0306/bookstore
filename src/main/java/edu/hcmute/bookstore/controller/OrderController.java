@@ -1,6 +1,7 @@
 package edu.hcmute.bookstore.controller;
 
 import edu.hcmute.bookstore.config.LocalVariable;
+import edu.hcmute.bookstore.mapper.OrderMapper;
 import edu.hcmute.bookstore.model.OrderEntity;
 import edu.hcmute.bookstore.model.ProductEntity;
 import edu.hcmute.bookstore.model.TransactionEntity;
@@ -11,6 +12,8 @@ import edu.hcmute.bookstore.service.impl.OrderDetailServiceImpl;
 import edu.hcmute.bookstore.service.impl.OrderServiceImpl;
 import edu.hcmute.bookstore.service.impl.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.BufferedReader;
@@ -38,6 +41,24 @@ public class OrderController {
     ProductServiceImpl productService;
     @Autowired
     OrderDetailServiceImpl orderDetailService;
+
+    @GetMapping("/admin/orders/getOrderByUserId/{id}")
+    public ResponseEntity<?> getOrderByUserId(@PathVariable long id){
+        try {
+            List<OrderEntity> orderEntityList = orderService.getAllByUserId(id);
+            List<OrderMapper> orderMappers = new ArrayList<>();
+            for (OrderEntity orderEntity : orderEntityList)
+            {
+                OrderMapper orderMapper = new OrderMapper(orderEntity.getId(), orderEntity.getOrdTotalPrice(), orderEntity.getOrdNote(), orderEntity.getOrdShippingFee(), orderEntity.getOrdPayment(), orderEntity.getOrdStatus(), orderEntity.getOrdAddress(), orderEntity.getOrdPhone(), orderEntity.getCreate_at());
+                orderMappers.add(orderMapper);
+            }
+            return ResponseEntity.ok(orderMappers);
+        }
+        catch (Exception e)
+        {
+            return new ResponseEntity<>(LocalVariable.messageCannotFindCat + id, HttpStatus.NOT_FOUND);
+        }
+    }
 
     @PostMapping("/user/order/create")
     public Object createOrder(@RequestBody List<Object> req) throws ParseException {

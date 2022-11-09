@@ -88,7 +88,7 @@ public class AuthenticationController {
         user.setCartEntity(new CartEntity(user.getId()));
         userService.save(user);
         cartService.save(user.getId());
-        return new ResponseEntity<>(new ResponseMessage("Tạo user thành công!"), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseMessage("Tạo user thành công!", "true"), HttpStatus.OK);
     }
 
 
