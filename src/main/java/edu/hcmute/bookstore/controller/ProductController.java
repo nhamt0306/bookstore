@@ -69,6 +69,17 @@ public class ProductController {
         return ResponseEntity.ok(productMapperList);
     }
 
+    @GetMapping("/product/find/{keyword}")
+    public ResponseEntity<?> getProductByName(@PathVariable String keyword){
+        List<ProductMapper> productMapperList = new ArrayList<>();
+        for(ProductEntity productEntity : productService.findProductByName(keyword))
+        {
+            ProductMapper productMapper = new ProductMapper(productEntity.getId(),productEntity.getProName(), productEntity.getProDescription(), productEntity.getProContent(), productEntity.getProPrice(), productEntity.getProQuantity(), productEntity.getProSale(), productEntity.getProImage(), productEntity.getCategoryEntity(), productEntity.getAuthorEntity(), productEntity.getPublisherEntity());
+            productMapperList.add(productMapper);
+        }
+        return ResponseEntity.ok(productMapperList);
+    }
+
     @PostMapping("/admin/product/create")
     public Object createProduct(@RequestBody ProductDTO productDTO) throws ParseException {
         ProductEntity productEntity = new ProductEntity();
