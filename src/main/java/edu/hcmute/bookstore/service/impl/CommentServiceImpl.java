@@ -6,6 +6,8 @@ import edu.hcmute.bookstore.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CommentServiceImpl implements CommentService {
     @Autowired
@@ -18,5 +20,10 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void deleteById(Long id) {
         commentRepository.deleteById(id);
+    }
+
+    @Override
+    public List<CommentEntity> getAllByProductId(Long productId) {
+        return commentRepository.getAllByProductEntityId(productId);
     }
 }

@@ -3,16 +3,26 @@ package edu.hcmute.bookstore.dto;
 public class CartProductReponse {
     private Long quantity;
     private Long price;
+    private Long productId;
     private String proImage;
     private String proName;
     private String proAuthor;
 
-    public CartProductReponse(Long quantity, Long price, String proImage, String proName, String proAuthor) {
+    public CartProductReponse(Long quantity, Long price, String proImage, String proName, String proAuthor, Long productId) {
         this.quantity = quantity;
         this.price = price;
         this.proImage = proImage;
         this.proName = proName;
         this.proAuthor = proAuthor;
+        this.productId = productId;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
     public Long getQuantity() {
