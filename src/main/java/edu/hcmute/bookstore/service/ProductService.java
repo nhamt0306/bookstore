@@ -13,4 +13,5 @@ public interface ProductService {
     void delete(Long id);
     List<ProductEntity> getPagingProduct(Integer pageNo, Integer pageSize);
     ProductEntity uploadImage(long id, MultipartFile image);
+    List<ProductEntity> findAllByCatId(Long id);
 }

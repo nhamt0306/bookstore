@@ -72,4 +72,9 @@ public class ProductServiceImpl implements ProductService {
 
         return productRepository.save(productEntity);
     }
+
+    @Override
+    public List<ProductEntity> findAllByCatId(Long id) {
+        return productRepository.findAllByCategoryEntityId(id);
+    }
 }
