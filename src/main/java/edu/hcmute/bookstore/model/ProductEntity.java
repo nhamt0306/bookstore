@@ -54,7 +54,8 @@ public class ProductEntity extends BaseEntity {
     private PublisherEntity publisherEntity;
 
     // Relationship with table AuthorEntity
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "authorId", referencedColumnName = "id")
     private AuthorEntity authorEntity; // mappedBy in table AuthorEntity
 

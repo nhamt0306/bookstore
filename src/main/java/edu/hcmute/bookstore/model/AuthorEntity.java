@@ -3,6 +3,7 @@ package edu.hcmute.bookstore.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "authors")
@@ -18,9 +19,8 @@ public class AuthorEntity extends BaseEntity {
     private String autStatus = "Active";
 
     // Relationship with table ProductEntity
-    @OneToOne(mappedBy = "authorEntity", fetch = FetchType.LAZY)
-    @JsonIgnore
-    private ProductEntity productEntity;
+    @OneToMany(mappedBy = "authorEntity", cascade = CascadeType.ALL)
+    private List<ProductEntity> productEntities;
 
     // Constructor
     public AuthorEntity() {
