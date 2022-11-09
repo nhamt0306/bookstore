@@ -3,6 +3,7 @@ package edu.hcmute.bookstore.mapper;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class OrderMapper {
     private Long id;
@@ -15,6 +16,7 @@ public class OrderMapper {
     private String ordPhone;
     @JsonFormat(timezone = "Asia/Jakarta", pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp ordDate;
+    private List<TransactionMapper> transactionMapper;
 
     public OrderMapper(Long id, Long ordTotalPrice, String ordNote, Long ordShippingFee, String ordPayment, String ordStatus, String ordAddress, String ordPhone, Timestamp ordDate) {
         this.id = id;
@@ -26,6 +28,14 @@ public class OrderMapper {
         this.ordAddress = ordAddress;
         this.ordPhone = ordPhone;
         this.ordDate = ordDate;
+    }
+
+    public List<TransactionMapper> getTransactionMapper() {
+        return transactionMapper;
+    }
+
+    public void setTransactionMapper(List<TransactionMapper> transactionMapper) {
+        this.transactionMapper = transactionMapper;
     }
 
     public Long getId() {
