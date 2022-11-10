@@ -59,10 +59,6 @@ public class ProductEntity extends BaseEntity {
     @JoinColumn(name = "authorId", referencedColumnName = "id")
     private AuthorEntity authorEntity; // mappedBy in table AuthorEntity
 
-    // Relationship with table WishList
-    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private List<WishListEntity> wishListEntities = new ArrayList<>();
 
     // Constructor, Getter, Setter
     public ProductEntity() {
@@ -129,13 +125,6 @@ public class ProductEntity extends BaseEntity {
         this.authorEntity = authorEntity;
     }
 
-    public List<WishListEntity> getWishListEntities() {
-        return wishListEntities;
-    }
-
-    public void setWishListEntities(List<WishListEntity> wishListEntities) {
-        this.wishListEntities = wishListEntities;
-    }
 
     public Long getId() {
         return id;

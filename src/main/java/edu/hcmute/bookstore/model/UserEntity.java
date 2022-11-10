@@ -27,6 +27,11 @@ public class UserEntity extends BaseEntity {
     private Timestamp userDob;
     private String userStatus = "Active";
 
+    // Relationship with table AddressEntity
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<AddressEntity> addressEntityList = new ArrayList<>();
+
     // Relationship with table OrderEntity (1:n)
     @OneToMany(mappedBy = "userEntities", cascade = CascadeType.ALL)
     @JsonManagedReference
@@ -37,10 +42,6 @@ public class UserEntity extends BaseEntity {
     @JoinColumn(name = "cartId", referencedColumnName = "id")
     private CartEntity cartEntity; // mappedBy in table CartEntity
 
-    // Relationship with table WishList
-    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private List<WishListEntity> wishListEntities = new ArrayList<>();
 
     //Ràng buộc quan hệ JPA data spring
     @ManyToMany(fetch = FetchType.EAGER)
@@ -48,6 +49,8 @@ public class UserEntity extends BaseEntity {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     Set<RoleEntity> roles = new HashSet<>();
+
+
 
 
     // Constructor, Getter and Setter
