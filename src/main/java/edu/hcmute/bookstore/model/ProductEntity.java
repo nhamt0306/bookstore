@@ -20,6 +20,7 @@ public class ProductEntity extends BaseEntity {
     private Long proPrice;
     private Long proQuantity;
     private Long proSale;
+    private Long proSold = Long.valueOf(0L);
     private String proImage;
     private Long proAvgRating;
     private String proStatus = "Active";
@@ -64,6 +65,14 @@ public class ProductEntity extends BaseEntity {
     public ProductEntity() {
     }
 
+    public Long getProSold() {
+        return proSold;
+    }
+
+    public void setProSold(Long proSold) {
+        this.proSold = proSold;
+    }
+
     public ProductEntity(Long id, String proName, String proDescription, String proContent, Long proPrice, Long proQuantity, Long proSale, String proImage, Long proAvgRating, String proStatus) {
         this.id = id;
         this.proName = proName;
@@ -72,6 +81,20 @@ public class ProductEntity extends BaseEntity {
         this.proPrice = proPrice;
         this.proQuantity = proQuantity;
         this.proSale = proSale;
+        this.proImage = proImage;
+        this.proAvgRating = proAvgRating;
+        this.proStatus = proStatus;
+    }
+
+    public ProductEntity(Long id, String proName, String proDescription, String proContent, Long proPrice, Long proQuantity, Long proSale, Long proSold, String proImage, Long proAvgRating, String proStatus) {
+        this.id = id;
+        this.proName = proName;
+        this.proDescription = proDescription;
+        this.proContent = proContent;
+        this.proPrice = proPrice;
+        this.proQuantity = proQuantity;
+        this.proSale = proSale;
+        this.proSold = proSold;
         this.proImage = proImage;
         this.proAvgRating = proAvgRating;
         this.proStatus = proStatus;

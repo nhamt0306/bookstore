@@ -9,4 +9,5 @@ public interface AddressService {
     AddressEntity save(AddressEntity address);
     void delete(Long id);
     List<AddressEntity> getAllByUserId(Long id);
+    AddressEntity getAddressDefaultOfUser(Long id);
 }

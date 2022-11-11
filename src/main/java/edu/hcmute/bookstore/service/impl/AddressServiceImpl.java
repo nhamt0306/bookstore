@@ -30,4 +30,10 @@ public class AddressServiceImpl implements AddressService {
     public List<AddressEntity> getAllByUserId(Long id) {
         return addressRepository.getAllByUserEntityId(id);
     }
+
+
+    @Override
+    public AddressEntity getAddressDefaultOfUser( Long id) {
+        return addressRepository.getDefaultAddressForUser(id);
+    }
 }

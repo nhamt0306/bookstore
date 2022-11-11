@@ -20,6 +20,7 @@ public class OrderEntity extends BaseEntity {
     private String ordStatus;
     private String ordAddress;
     private String ordPhone;
+    private String ordFullName;
 
     // Relationship with table OrderDetailsEntity
     @OneToMany(mappedBy = "orderEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -125,6 +126,14 @@ public class OrderEntity extends BaseEntity {
 
     public void setUserEntities(UserEntity userEntities) {
         this.userEntities = userEntities;
+    }
+
+    public String getOrdFullName() {
+        return ordFullName;
+    }
+
+    public void setOrdFullName(String ordFullName) {
+        this.ordFullName = ordFullName;
     }
 
     public OrderEntity(Long ordTotalPrice, String ordNote, Long ordShippingFee, String ordPayment, String ordStatus, String ordAddress, String ordPhone) {

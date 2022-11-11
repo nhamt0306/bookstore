@@ -3,15 +3,9 @@ package edu.hcmute.bookstore.controller;
 import edu.hcmute.bookstore.config.LocalVariable;
 import edu.hcmute.bookstore.mapper.OrderMapper;
 import edu.hcmute.bookstore.mapper.TransactionMapper;
-import edu.hcmute.bookstore.model.OrderEntity;
-import edu.hcmute.bookstore.model.ProductEntity;
-import edu.hcmute.bookstore.model.TransactionEntity;
-import edu.hcmute.bookstore.model.UserEntity;
+import edu.hcmute.bookstore.model.*;
 import edu.hcmute.bookstore.security.principal.UserDetailService;
-import edu.hcmute.bookstore.service.impl.CartProductServiceImpl;
-import edu.hcmute.bookstore.service.impl.OrderDetailServiceImpl;
-import edu.hcmute.bookstore.service.impl.OrderServiceImpl;
-import edu.hcmute.bookstore.service.impl.ProductServiceImpl;
+import edu.hcmute.bookstore.service.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +36,8 @@ public class OrderController {
     ProductServiceImpl productService;
     @Autowired
     OrderDetailServiceImpl orderDetailService;
+    @Autowired
+    AddressServiceImpl addressService;
 
     @GetMapping("/admin/orders/getOrderByUserId/{id}")
     public ResponseEntity<?> getOrderByUserId(@PathVariable long id){
@@ -94,8 +90,15 @@ public class OrderController {
             long quantity = Long.parseLong(transaction.get("quantity"));
             System.out.println(quantity);
             ProductEntity productEntity = productService.findProductById(Long.parseLong(transaction.get("product_id")));
+            if (quantity > productEntity.getProQuantity())
+            {
+                return "Dont enought quantity of "+ productEntity.getProName();
+            }
+            productEntity.setProSold(productEntity.getProSold() + quantity);
+            productEntity.setProQuantity(productEntity.getProQuantity() - quantity);
             TransactionEntity transactionEntity = new TransactionEntity(unitPrice, quantity, productEntity);
             totalcost += unitPrice*quantity;
+            productService.save(productEntity);
             transactionEntities.add(transactionEntity);
         }
         // map value for orderEntity and check if user want to add new address
@@ -103,7 +106,13 @@ public class OrderController {
             orderEntity = new OrderEntity(totalcost, orderInformation.get("note") == null ? "" : orderInformation.get("note"), Long.parseLong(orderInformation.get("shipping_fee") == null ? "25000" : orderInformation.get("shipping_fee")), orderInformation.get("payment") == null ? "COD" : orderInformation.get("payment"), "PENDING" , user.getUserAddress(), user.getUserPhone());
         } else
         {
-            orderEntity = new OrderEntity(totalcost, orderInformation.get("note") == null ? "" : orderInformation.get("note"), Long.parseLong(orderInformation.get("shipping_fee") == null ? "25000" : orderInformation.get("shipping_fee")), orderInformation.get("payment") == null ? "COD" : orderInformation.get("payment"), "PENDING" , orderInformation.get("address") == null ? user.getUserAddress() : orderInformation.get("address"), user.getUserPhone());
+            AddressEntity address = addressService.getAddressDefaultOfUser(user.getId());
+            orderEntity = new OrderEntity(totalcost, orderInformation.get("note") == null ? "Không có ghi chú" : orderInformation.get("note"), Long.parseLong(orderInformation.get("shipping_fee") == null ? "25000" : orderInformation.get("shipping_fee")), orderInformation.get("payment") == null ? "COD" : orderInformation.get("payment"), "PENDING" , address.getAddress(), address.getPhoneNumber());
+            if (totalcost > Long.valueOf(250000L))
+            {
+                orderEntity.setOrdShippingFee(Long.valueOf(0L));
+            }
+            orderEntity.setOrdFullName(address.getName());
         }
         orderEntity.setUserEntities(user);
         System.out.println(orderEntity);
