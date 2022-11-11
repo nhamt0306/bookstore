@@ -26,6 +26,12 @@ public class AddressController {
 
     @PostMapping("/user/address/create")
     public Object createAddress(@RequestBody AddressEntity address) throws ParseException {
+        List<AddressEntity> addressEntities = addressService.getAllByUserId(userDetailService.getCurrentUser().getId());
+        for (AddressEntity addressEntity: addressEntities)
+        {
+            addressEntity.setAdd_default(false);
+            addressService.save(addressEntity);
+        }
         address.setUserEntity(userDetailService.getCurrentUser());
         return addressService.save(address);
     }
@@ -53,8 +59,16 @@ public class AddressController {
     @DeleteMapping("/user/address/{id}")
     public ResponseEntity<?> deleteAddressById(@PathVariable long id)
     {
-        addressService.delete(id);
-        return ResponseEntity.ok("Delete address success!");
+        try
+        {
+            addressService.delete(id);
+            return ResponseEntity.ok("Delete address success!");
+        }
+        catch (Exception e)
+        {
+            return ResponseEntity.ok("Cannot find address with id = "+ id);
+        }
+
     }
 
     @PostMapping("/user/address/setDefault/{id}")
@@ -63,11 +77,11 @@ public class AddressController {
         List<AddressEntity> addressEntities = addressService.getAllByUserId(userDetailService.getCurrentUser().getId());
         for (AddressEntity address: addressEntities)
         {
-            address.setAdd_default("1");
+            address.setAdd_default(false);
             addressService.save(address);
         }
         AddressEntity addressDefault = addressService.findAddressById(id);
-        addressDefault.setAdd_default("0");
+        addressDefault.setAdd_default(true);
         addressService.save(addressDefault);
         return ResponseEntity.ok("Set address default success!");
     }
