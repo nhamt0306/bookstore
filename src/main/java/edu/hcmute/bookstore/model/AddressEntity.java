@@ -16,6 +16,7 @@ public class AddressEntity {
     private String name;
     private String phoneNumber;
     private Boolean add_default = true;
+    private String note;
 
     //  Relationship with table User
     @ManyToOne(fetch = FetchType.LAZY)
@@ -35,6 +36,23 @@ public class AddressEntity {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.add_default = add_default;
+    }
+
+    public AddressEntity(Long id, String address, String name, String phoneNumber, Boolean add_default, String note) {
+        this.id = id;
+        this.address = address;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.add_default = add_default;
+        this.note = note;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public UserEntity getUserEntity() {
