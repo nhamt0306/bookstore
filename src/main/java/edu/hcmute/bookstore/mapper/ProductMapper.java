@@ -17,6 +17,7 @@ public class ProductMapper {
     private String category;
     private String author;
     private String publisher;
+    private Long curPrice;
 
     public ProductMapper(Long id, String proName, String proDescription, String proContent, Long proPrice, Long proQuantity, Long proSale, String proImage, CategoryEntity category, AuthorEntity author, PublisherEntity publisher) {
         this.id = id;
@@ -30,6 +31,69 @@ public class ProductMapper {
         this.category = category.getCatName();
         this.author = author.getAutName();
         this.publisher = publisher.getPubName();
+    }
+
+    public ProductMapper(Long id, String proName, String proDescription, String proContent, Long proPrice, Long proQuantity, Long proSale, String proImage, CategoryEntity category, AuthorEntity author, PublisherEntity publisher, Long curPrice) {
+        this.id = id;
+        this.proName = proName;
+        this.proDescription = proDescription;
+        this.proContent = proContent;
+        this.proPrice = proPrice;
+        this.proQuantity = proQuantity;
+        this.proSale = proSale;
+        this.proImage = proImage;
+        this.category = category.getCatName();
+        this.author = author.getAutName();
+        this.publisher = publisher.getPubName();
+        this.curPrice = curPrice;
+    }
+
+    public void setProName(String proName) {
+        this.proName = proName;
+    }
+
+    public void setProDescription(String proDescription) {
+        this.proDescription = proDescription;
+    }
+
+    public void setProContent(String proContent) {
+        this.proContent = proContent;
+    }
+
+    public void setProPrice(Long proPrice) {
+        this.proPrice = proPrice;
+    }
+
+    public void setProQuantity(Long proQuantity) {
+        this.proQuantity = proQuantity;
+    }
+
+    public void setProSale(Long proSale) {
+        this.proSale = proSale;
+    }
+
+    public void setProImage(String proImage) {
+        this.proImage = proImage;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
+    public Long getCurPrice() {
+        return curPrice;
+    }
+
+    public void setCurPrice(Long curPrice) {
+        this.curPrice = curPrice;
     }
 
     public String getProName() {

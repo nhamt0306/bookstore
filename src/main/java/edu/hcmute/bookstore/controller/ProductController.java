@@ -40,6 +40,9 @@ public class ProductController {
         for(ProductEntity productEntity : productService.getPagingProduct(pageNo, pageSize))
         {
             ProductMapper productMapper = new ProductMapper(productEntity.getId(),productEntity.getProName(), productEntity.getProDescription(), productEntity.getProContent(), productEntity.getProPrice(), productEntity.getProQuantity(), productEntity.getProSale(), productEntity.getProImage(), productEntity.getCategoryEntity(), productEntity.getAuthorEntity(), productEntity.getPublisherEntity());
+            Double salePrice = Double.valueOf(productEntity.getProPrice()) * Double.valueOf(Double.valueOf(productEntity.getProSale())/Double.valueOf(100));
+            Long curPrice = productEntity.getProPrice() - salePrice.longValue();
+            productMapper.setCurPrice(curPrice);
             productMapperList.add(productMapper);
         }
         return ResponseEntity.ok(productMapperList);
@@ -50,6 +53,9 @@ public class ProductController {
         try {
             ProductEntity productEntity = productService.findProductById(id);
             ProductMapper productMapper = new ProductMapper(productEntity.getId(),productEntity.getProName(), productEntity.getProDescription(), productEntity.getProContent(), productEntity.getProPrice(), productEntity.getProQuantity(), productEntity.getProSale(), productEntity.getProImage(), productEntity.getCategoryEntity(), productEntity.getAuthorEntity(), productEntity.getPublisherEntity());
+            Double salePrice = Double.valueOf(productEntity.getProPrice()) * Double.valueOf(Double.valueOf(productEntity.getProSale())/Double.valueOf(100));
+            Long curPrice = productEntity.getProPrice() - salePrice.longValue();
+            productMapper.setCurPrice(curPrice);
             return ResponseEntity.ok(productMapper);
         }
         catch (Exception e)
@@ -64,6 +70,9 @@ public class ProductController {
         for(ProductEntity productEntity : productService.findAllByCatId(id))
         {
             ProductMapper productMapper = new ProductMapper(productEntity.getId(),productEntity.getProName(), productEntity.getProDescription(), productEntity.getProContent(), productEntity.getProPrice(), productEntity.getProQuantity(), productEntity.getProSale(), productEntity.getProImage(), productEntity.getCategoryEntity(), productEntity.getAuthorEntity(), productEntity.getPublisherEntity());
+            Double salePrice = Double.valueOf(productEntity.getProPrice()) * Double.valueOf(Double.valueOf(productEntity.getProSale())/Double.valueOf(100));
+            Long curPrice = productEntity.getProPrice() - salePrice.longValue();
+            productMapper.setCurPrice(curPrice);
             productMapperList.add(productMapper);
         }
         return ResponseEntity.ok(productMapperList);
@@ -75,6 +84,9 @@ public class ProductController {
         for(ProductEntity productEntity : productService.findProductByName(keyword))
         {
             ProductMapper productMapper = new ProductMapper(productEntity.getId(),productEntity.getProName(), productEntity.getProDescription(), productEntity.getProContent(), productEntity.getProPrice(), productEntity.getProQuantity(), productEntity.getProSale(), productEntity.getProImage(), productEntity.getCategoryEntity(), productEntity.getAuthorEntity(), productEntity.getPublisherEntity());
+            Double salePrice = Double.valueOf(productEntity.getProPrice()) * Double.valueOf(Double.valueOf(productEntity.getProSale())/Double.valueOf(100));
+            Long curPrice = productEntity.getProPrice() - salePrice.longValue();
+            productMapper.setCurPrice(curPrice);
             productMapperList.add(productMapper);
         }
         return ResponseEntity.ok(productMapperList);
@@ -117,6 +129,9 @@ public class ProductController {
         for(ProductEntity productEntity : productService.getAllProduct())
         {
             ProductMapper productMapper = new ProductMapper(productEntity.getId(),productEntity.getProName(), productEntity.getProDescription(), productEntity.getProContent(), productEntity.getProPrice(), productEntity.getProQuantity(), productEntity.getProSale(), productEntity.getProImage(), productEntity.getCategoryEntity(), productEntity.getAuthorEntity(), productEntity.getPublisherEntity());
+            Double salePrice = Double.valueOf(productEntity.getProPrice()) * Double.valueOf(Double.valueOf(productEntity.getProSale())/Double.valueOf(100));
+            Long curPrice = productEntity.getProPrice() - salePrice.longValue();
+            productMapper.setCurPrice(curPrice);
             productMapperList.add(productMapper);
         }
         return ResponseEntity.ok(productMapperList);

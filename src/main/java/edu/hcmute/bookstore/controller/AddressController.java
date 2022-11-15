@@ -51,6 +51,10 @@ public class AddressController {
         {
             addressEntity.setName(address.getName());
         }
+        else if (!address.getNote().equals(null))
+        {
+            addressEntity.setNote(address.getNote());
+        }
         address.setUserEntity(userDetailService.getCurrentUser());
         addressService.save(addressEntity);
         return "Update address success!";
