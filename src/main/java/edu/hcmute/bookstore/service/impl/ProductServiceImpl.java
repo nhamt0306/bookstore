@@ -77,4 +77,9 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductEntity> findAllByCatId(Long id) {
         return productRepository.findAllByCategoryEntityId(id);
     }
+
+    @Override
+    public List<ProductEntity> getAllActive(String status) {
+        return productRepository.getAllByProStatus(status);
+    }
 }

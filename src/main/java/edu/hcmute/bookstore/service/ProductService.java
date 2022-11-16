@@ -14,4 +14,5 @@ public interface ProductService {
     List<ProductEntity> getPagingProduct(Integer pageNo, Integer pageSize);
     ProductEntity uploadImage(long id, MultipartFile image);
     List<ProductEntity> findAllByCatId(Long id);
+    List<ProductEntity> getAllActive(String status);
 }

@@ -123,7 +123,22 @@ public class ProductController {
         return ResponseEntity.ok(LocalVariable.messageDeleteCatSuccess);
     }
     @GetMapping("/product/getAll")
-    public ResponseEntity<?> deleteProductById()
+    public ResponseEntity<?> getAllProductActive()
+    {
+        List<ProductMapper> productMapperList = new ArrayList<>();
+        for(ProductEntity productEntity : productService.getAllActive("Active"))
+        {
+            ProductMapper productMapper = new ProductMapper(productEntity.getId(),productEntity.getProName(), productEntity.getProDescription(), productEntity.getProContent(), productEntity.getProPrice(), productEntity.getProQuantity(), productEntity.getProSale(), productEntity.getProImage(), productEntity.getCategoryEntity(), productEntity.getAuthorEntity(), productEntity.getPublisherEntity());
+            Double salePrice = Double.valueOf(productEntity.getProPrice()) * Double.valueOf(Double.valueOf(productEntity.getProSale())/Double.valueOf(100));
+            Long curPrice = productEntity.getProPrice() - salePrice.longValue();
+            productMapper.setCurPrice(curPrice);
+            productMapperList.add(productMapper);
+        }
+        return ResponseEntity.ok(productMapperList);
+    }
+
+    @GetMapping("/admin/products/getAll")
+    public ResponseEntity<?> getAllProduct()
     {
         List<ProductMapper> productMapperList = new ArrayList<>();
         for(ProductEntity productEntity : productService.getAllProduct())
@@ -135,5 +150,18 @@ public class ProductController {
             productMapperList.add(productMapper);
         }
         return ResponseEntity.ok(productMapperList);
+    }
+
+    @PostMapping("/admin/product/active/{id}")
+    public ResponseEntity<?> activeProductById(@PathVariable long id)
+    {
+        ProductEntity productEntity = productService.findProductById(id);
+        if (productEntity.getProStatus().equals("Active"))
+        {
+            return ResponseEntity.ok("Product already active!");
+        }
+        productEntity.setProStatus("Active");
+        productService.save(productEntity);
+        return ResponseEntity.ok("Active product sucess!");
     }
 }
