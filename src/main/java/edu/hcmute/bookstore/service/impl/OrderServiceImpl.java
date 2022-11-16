@@ -52,4 +52,9 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderEntity> getAllByUserId(Long userid) {
         return orderRepository.getAllByUserEntitiesId(userid);
     }
+
+    @Override
+    public List<OrderEntity> getAllOrder() {
+        return orderRepository.findAll();
+    }
 }
