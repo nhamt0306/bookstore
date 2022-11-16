@@ -5,6 +5,7 @@ import edu.hcmute.bookstore.dto.ChangePasswordDTO;
 import edu.hcmute.bookstore.dto.PubliserDTO;
 import edu.hcmute.bookstore.mapper.JwtResponse;
 import edu.hcmute.bookstore.mapper.SignInForm;
+import edu.hcmute.bookstore.mapper.UserMapper;
 import edu.hcmute.bookstore.model.PublisherEntity;
 import edu.hcmute.bookstore.model.UserEntity;
 import edu.hcmute.bookstore.security.principal.UserDetailService;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 @CrossOrigin(origins = "*")   //Để ghép AuthController với các controller khác
 @RequestMapping
@@ -36,21 +39,30 @@ public class UserController {
     //Get all user
     @GetMapping("admin/users/getAllUser")
     public ResponseEntity<?> getAllUser(){
-        return ResponseEntity.ok(userService.findAll());
+        List<UserEntity> userEntityList = userService.findAll();
+        List<UserMapper> userMappers = new ArrayList<>();
+        for(UserEntity user : userEntityList)
+        {
+            UserMapper userMapper = new UserMapper(user.getId(), user.getUsername(), user.getFullName(), user.getUserPhone(), user.getUserEmail(), user.getPassword(), user.getUserAddress(), user.getUserGender(), user.getUserDob(), user.getRoles());
+            userMappers.add(userMapper);
+        }
+        return ResponseEntity.ok(userMappers);
     }
 
     //Get current user
     @GetMapping("/user/profile")
     public ResponseEntity<?> getCurUser(){
-        UserEntity userEntity = userDetailService.getCurrentUser();
-        UserEntity respone = new UserEntity(userEntity.getId(), userEntity.getUsername(), userEntity.getFullName(), userEntity.getUserPhone(), userEntity.getUserEmail(), userEntity.getPassword(), userEntity.getUserAddress(), userEntity.getUserGender(), userEntity.getUserDob(),userEntity.getUserStatus());
-        return ResponseEntity.ok(respone);
+        UserEntity user = userDetailService.getCurrentUser();
+        UserMapper userMapper = new UserMapper(user.getId(), user.getUsername(), user.getFullName(), user.getUserPhone(), user.getUserEmail(), user.getPassword(), user.getUserAddress(), user.getUserGender(), user.getUserDob(), user.getRoles());
+        return ResponseEntity.ok(userMapper);
     }
 
     @GetMapping("admin/users/{id}")
     public ResponseEntity<?> getUserById(@PathVariable long id){
         try {
-            return ResponseEntity.ok(userService.findById(id));
+            UserEntity user = userService.findById(id).get();
+            UserMapper userMapper = new UserMapper(user.getId(), user.getUsername(), user.getFullName(), user.getUserPhone(), user.getUserEmail(), user.getPassword(), user.getUserAddress(), user.getUserGender(), user.getUserDob(), user.getRoles());
+            return ResponseEntity.ok(userMapper);
         }
         catch (Exception e)
         {

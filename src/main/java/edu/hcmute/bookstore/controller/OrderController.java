@@ -107,10 +107,14 @@ public class OrderController {
         } else
         {
             AddressEntity address = addressService.getAddressDefaultOfUser(user.getId());
-            orderEntity = new OrderEntity(totalcost, orderInformation.get("note") == null ? "Không có ghi chú" : orderInformation.get("note"), Long.parseLong(orderInformation.get("shipping_fee") == null ? "25000" : orderInformation.get("shipping_fee")), orderInformation.get("payment") == null ? "COD" : orderInformation.get("payment"), "PENDING" , address.getAddress(), address.getPhoneNumber());
+            orderEntity = new OrderEntity(totalcost, address.getNote(), Long.parseLong(orderInformation.get("shipping_fee") == null ? "25000" : orderInformation.get("shipping_fee")), orderInformation.get("payment") == null ? "COD" : orderInformation.get("payment"), "PENDING" , address.getAddress(), address.getPhoneNumber());
             if (totalcost > Long.valueOf(250000L))
             {
                 orderEntity.setOrdShippingFee(Long.valueOf(0L));
+            }
+            else
+            {
+                orderEntity.setOrdShippingFee(Long.valueOf(15000));
             }
             orderEntity.setOrdFullName(address.getName());
         }
