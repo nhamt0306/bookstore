@@ -92,6 +92,32 @@ public class OrderController {
             return new ResponseEntity<>("Cannot find any order!", HttpStatus.NOT_FOUND);
         }
     }
+    @GetMapping("/user/order/getAll")
+    public ResponseEntity<?> getOrderByUserLogin(){
+        try {
+            List<OrderEntity> orderEntityList = orderService.getAllByUserId(userDetailService.getCurrentUser().getId());
+            List<OrderMapper> orderMappers = new ArrayList<>();
+            for (OrderEntity orderEntity : orderEntityList)
+            {
+                OrderMapper orderMapper = new OrderMapper(orderEntity.getId(), orderEntity.getOrdTotalPrice(), orderEntity.getOrdNote(), orderEntity.getOrdShippingFee(), orderEntity.getOrdPayment(), orderEntity.getOrdStatus(), orderEntity.getOrdAddress(), orderEntity.getOrdPhone(), orderEntity.getCreate_at());
+                // get transaction of ~ order
+                List<TransactionMapper> transactionMappers = new ArrayList<>();
+                for(TransactionEntity transactionEntity : orderDetailService.getAllByOrderId(orderEntity.getId()))
+                {
+                    TransactionMapper transactionMapper = new TransactionMapper(transactionEntity.getId(),transactionEntity.getTranStatus(), transactionEntity.getTranUnitPrice(), transactionEntity.getTranQuantity(), transactionEntity.getProductEntity().getId(), transactionEntity.getProductEntity().getProImage(), transactionEntity.getProductEntity().getProName(), transactionEntity.getProductEntity().getAuthorEntity().getAutName());
+                    transactionMappers.add(transactionMapper);
+                }
+                orderMapper.setTransactionMapper(transactionMappers);
+                orderMappers.add(orderMapper);
+            }
+
+            return ResponseEntity.ok(orderMappers);
+        }
+        catch (Exception e)
+        {
+            return new ResponseEntity<>(LocalVariable.messageCannotFindCat , HttpStatus.NOT_FOUND);
+        }
+    }
 
     @PostMapping("/user/order/create")
     public Object createOrder(@RequestBody List<Object> req) throws ParseException {
