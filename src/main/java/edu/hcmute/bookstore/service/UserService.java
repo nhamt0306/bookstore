@@ -18,5 +18,5 @@ public interface UserService {
     Boolean downRole(String email);
     UserEntity changeUserPasswordByEmail(String email, String newPassword);
     String getCheckValidEmailOTP(String username, String emailRegister);
-
+    void deleteByEmail(String email);
 }

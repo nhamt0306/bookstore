@@ -121,7 +121,7 @@ public class UserController {
     }
 
     @PostMapping("admin/users/uprole")
-    public ResponseEntity<?> upRoleUser(@RequestParam(value = "email", required = false) String email){
+    public ResponseEntity<?> upRoleUser(@RequestBody String email){
         String username = userService.findByUsername(email).get().getUsername();
         if (userService.upRole(email)){
             return ResponseEntity.ok("Update Role User "+username+" Success");
@@ -130,7 +130,7 @@ public class UserController {
     }
 
     @PostMapping("admin/users/downrole")
-    public ResponseEntity<?> downRoleUser(@RequestParam(value = "email", required = false) String email){
+    public ResponseEntity<?> downRoleUser(@RequestBody String email){
         String username = userService.findByUsername(email).get().getUsername();
         if (userService.downRole(email)){
             return ResponseEntity.ok("Update Role User "+username+" Success");
@@ -138,16 +138,10 @@ public class UserController {
         return ResponseEntity.ok("User "+username+" already have this role!!!");
     }
 
-    @DeleteMapping("admin/users/delete")
-    public ResponseEntity<?> deleteUser(@RequestParam(value = "email", required = false) String email)
+    @DeleteMapping("admin/users/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable long id)
     {
-        if (userService.existsByEmail(email))
-        {
-            String username = userService.findByUsername(email).get().getUsername();
-            Long userId = userService.findByUserEmail(email).get().getId();
-            userService.deleteById(userId);
-            return ResponseEntity.ok("Delete "+username+" success!");
-        }
-        return ResponseEntity.ok("Username unavailable!");
+        userService.deleteById(id);
+        return ResponseEntity.ok(LocalVariable.messageDeleteCatSuccess);
     }
 }

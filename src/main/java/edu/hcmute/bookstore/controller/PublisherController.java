@@ -58,6 +58,6 @@ public class PublisherController {
     public ResponseEntity<?> deletePublisherById(@PathVariable long id)
     {
         publisherService.deletePublisherById(id);
-        return ResponseEntity.ok(LocalVariable.messageDeleteCatSuccess);
+        return ResponseEntity.ok("Delete publisher success!");
     }
 }

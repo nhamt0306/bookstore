@@ -145,6 +145,11 @@ public class UserServiceImpl implements UserService {
         return otpCode;
     }
 
+    @Override
+    public void deleteByEmail(String email) {
+        userRepository.deleteByUserEmail(email);
+    }
+
     public void sendCheckEmailByOTP(String addressGmail, String username, String otpCode) throws MessagingException {
         emailSenderService.sendAsHTML(
                 addressGmail,
