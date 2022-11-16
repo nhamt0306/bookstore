@@ -147,11 +147,11 @@ public class OrderController {
             {
                 return "Dont enought quantity of "+ productEntity.getProName();
             }
-            productEntity.setProSold(productEntity.getProSold() + quantity);
-            productEntity.setProQuantity(productEntity.getProQuantity() - quantity);
+//            productEntity.setProSold(productEntity.getProSold() + quantity);
+//            productEntity.setProQuantity(productEntity.getProQuantity() - quantity);
             TransactionEntity transactionEntity = new TransactionEntity(unitPrice, quantity, productEntity);
             totalcost += unitPrice*quantity;
-            productService.save(productEntity);
+//            productService.save(productEntity);
             transactionEntities.add(transactionEntity);
         }
         // map value for orderEntity and check if user want to add new address
@@ -191,9 +191,9 @@ public class OrderController {
         return "create order success";
     }
 
-    @PostMapping("/user/order/cancel")
-    public Object cancelOrder(@RequestBody Map<String, String> req) {
-        OrderEntity orderEntity = orderService.findOrderById(Long.parseLong(req.get("id")));
+    @PostMapping("/admin/order/deny/{id}")
+    public Object cancelOrder(@PathVariable long id) {
+        OrderEntity orderEntity = orderService.findOrderById(id);
         if (orderEntity.getOrdStatus().equals("PENDING")) // Nếu tình trạng là đang đợi thì mới được hủy
         {
             orderEntity.setOrdStatus(LocalVariable.cancelMessage);
@@ -204,17 +204,40 @@ public class OrderController {
         return "cancel order fail";
     }
 
-    @PostMapping("/user/order/accept")
-    public Object acceptOrder(@RequestBody Map<String, String> req) {
-        OrderEntity orderEntity = orderService.findOrderById(Long.parseLong(req.get("id")));
+    @PostMapping("/user/order/deny/{id}")
+    public Object denyOrderByUser(@PathVariable long id) {
+        OrderEntity orderEntity = orderService.findOrderById(id);
+        if (orderEntity.getOrdStatus().equals("PENDING")) // Nếu tình trạng là đang đợi thì mới được hủy
+        {
+            orderEntity.setOrdStatus(LocalVariable.cancelMessage);
+            orderEntity.setUpdate_at(new Timestamp(System.currentTimeMillis()));
+            orderService.addNewOrder(orderEntity);
+            return "cancel order success";
+        }
+        return "cancel order fail";
+    }
+
+    @PostMapping("/admin/order/accept/{id}")
+    public Object acceptOrder(@PathVariable long id) {
+        OrderEntity orderEntity = orderService.findOrderById(id);
+        //update product quantity
+        List<TransactionEntity> transactionEntities = orderDetailService.getAllByOrderId(orderEntity.getId());
+        for (TransactionEntity transactionEntity : transactionEntities)
+        {
+            ProductEntity productEntity = productService.findProductById(transactionEntity.getProductEntity().getId());
+            productEntity.setProSold(productEntity.getProSold() + transactionEntity.getTranQuantity());
+            productEntity.setProQuantity(productEntity.getProQuantity() - transactionEntity.getTranQuantity());
+            productService.save(productEntity);
+        }
+
         if (orderEntity.getOrdStatus().equals("PENDING") || orderEntity.getOrdStatus().equals("PAID")) // Nếu tình trạng là đang đợi thì mới được hủy
         {
             orderEntity.setOrdStatus(LocalVariable.doneMessage);
             orderEntity.setUpdate_at(new Timestamp(System.currentTimeMillis()));
             orderService.addNewOrder(orderEntity);
-            return "update status order with done success";
+            return "update status order with done: success";
         }
-        return "update status order with done fail";
+        return "update status order with done: fail";
     }
     @GetMapping("/get_deliver_fee")
     public Object getShippingFee(@RequestParam String f, @RequestParam String t, @RequestParam String w) {
