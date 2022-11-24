@@ -94,18 +94,24 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody SignInForm signInForm){
-        // UsernamePasswordAuthenticationToken sẽ kiểm tra thông tin người dùng
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(signInForm.getUsername(), signInForm.getPassword())
-        );
-        // Set token lên hệ thống
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        // Tạo jwt token
-        String token = jwtProvider.createToken(authentication);
-        // Lấy ra thông tin người dùng hiện tại trên hệ thống
-        UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
-        // Trả về kết quả.
-        return ResponseEntity.ok(new JwtResponse(token, userPrinciple.getName(), userPrinciple.getAuthorities()));
+        try{
+            // UsernamePasswordAuthenticationToken sẽ kiểm tra thông tin người dùng
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(signInForm.getUsername(), signInForm.getPassword())
+            );
+            // Set token lên hệ thống
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            // Tạo jwt token
+            String token = jwtProvider.createToken(authentication);
+            // Lấy ra thông tin người dùng hiện tại trên hệ thống
+            UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
+            // Trả về kết quả.
+            return ResponseEntity.ok(new JwtResponse(token, userPrinciple.getName(), userPrinciple.getAuthorities()));
+        }
+        catch (Exception e)
+        {
+            return new ResponseEntity("Username or password is incorrect!", HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping(path = "/verifyEmail/getOtp")
