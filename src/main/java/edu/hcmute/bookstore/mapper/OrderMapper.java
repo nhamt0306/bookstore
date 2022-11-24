@@ -14,6 +14,7 @@ public class OrderMapper {
     private String ordStatus;
     private String ordAddress;
     private String ordPhone;
+    private String ordUsername;
     @JsonFormat(timezone = "Asia/Jakarta", pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp ordDate;
     private List<TransactionMapper> transactionMapper;
@@ -28,6 +29,14 @@ public class OrderMapper {
         this.ordAddress = ordAddress;
         this.ordPhone = ordPhone;
         this.ordDate = ordDate;
+    }
+
+    public String getOrdUsername() {
+        return ordUsername;
+    }
+
+    public void setOrdUsername(String ordUsername) {
+        this.ordUsername = ordUsername;
     }
 
     public List<TransactionMapper> getTransactionMapper() {

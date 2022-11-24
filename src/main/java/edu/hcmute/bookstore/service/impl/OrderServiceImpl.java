@@ -50,11 +50,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderEntity> getAllByUserId(Long userid) {
-        return orderRepository.getAllByUserEntitiesId(userid);
+        return orderRepository.getAllByUserEntitiesIdOrderByCreate_atDesc(userid);
     }
 
     @Override
     public List<OrderEntity> getAllOrder() {
-        return orderRepository.findAll();
+        return orderRepository.getAllOrderByDate();
     }
 }

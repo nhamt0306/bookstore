@@ -47,6 +47,7 @@ public class OrderController {
             for (OrderEntity orderEntity : orderEntityList)
             {
                 OrderMapper orderMapper = new OrderMapper(orderEntity.getId(), orderEntity.getOrdTotalPrice(), orderEntity.getOrdNote(), orderEntity.getOrdShippingFee(), orderEntity.getOrdPayment(), orderEntity.getOrdStatus(), orderEntity.getOrdAddress(), orderEntity.getOrdPhone(), orderEntity.getCreate_at());
+                orderMapper.setOrdUsername(orderEntity.getOrdFullName());
                 // get transaction of ~ order
                 List<TransactionMapper> transactionMappers = new ArrayList<>();
                 for(TransactionEntity transactionEntity : orderDetailService.getAllByOrderId(orderEntity.getId()))
@@ -74,6 +75,7 @@ public class OrderController {
             for (OrderEntity orderEntity : orderEntityList)
             {
                 OrderMapper orderMapper = new OrderMapper(orderEntity.getId(), orderEntity.getOrdTotalPrice(), orderEntity.getOrdNote(), orderEntity.getOrdShippingFee(), orderEntity.getOrdPayment(), orderEntity.getOrdStatus(), orderEntity.getOrdAddress(), orderEntity.getOrdPhone(), orderEntity.getCreate_at());
+                orderMapper.setOrdUsername(orderEntity.getOrdFullName());
                 // get transaction of ~ order
                 List<TransactionMapper> transactionMappers = new ArrayList<>();
                 for(TransactionEntity transactionEntity : orderDetailService.getAllByOrderId(orderEntity.getId()))
@@ -100,6 +102,7 @@ public class OrderController {
             for (OrderEntity orderEntity : orderEntityList)
             {
                 OrderMapper orderMapper = new OrderMapper(orderEntity.getId(), orderEntity.getOrdTotalPrice(), orderEntity.getOrdNote(), orderEntity.getOrdShippingFee(), orderEntity.getOrdPayment(), orderEntity.getOrdStatus(), orderEntity.getOrdAddress(), orderEntity.getOrdPhone(), orderEntity.getCreate_at());
+                orderMapper.setOrdUsername(orderEntity.getOrdFullName());
                 // get transaction of ~ order
                 List<TransactionMapper> transactionMappers = new ArrayList<>();
                 for(TransactionEntity transactionEntity : orderDetailService.getAllByOrderId(orderEntity.getId()))
@@ -262,4 +265,6 @@ public class OrderController {
 
         return httpRequest;
     }
+
+
 }
