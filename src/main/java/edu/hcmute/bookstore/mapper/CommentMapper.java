@@ -5,12 +5,32 @@ public class CommentMapper {
     private String comContent;
     private Long comRating;
     private String userFullName;
+    private String userAvatar;
+    private Integer totalComment;
 
-    public CommentMapper(Long id, String comContent, Long comRating, String userFullName) {
+    public CommentMapper(Long id, String comContent, Long comRating, String userFullName, String avatar, Integer totalComment) {
         this.id = id;
         this.comContent = comContent;
         this.comRating = comRating;
         this.userFullName = userFullName;
+        this.userAvatar =avatar;
+        this.totalComment = totalComment;
+    }
+
+    public String getUserAvatar() {
+        return userAvatar;
+    }
+
+    public void setUserAvatar(String userAvatar) {
+        this.userAvatar = userAvatar;
+    }
+
+    public Integer getTotalComment() {
+        return totalComment;
+    }
+
+    public void setTotalComment(Integer totalComment) {
+        this.totalComment = totalComment;
     }
 
     public Long getId() {

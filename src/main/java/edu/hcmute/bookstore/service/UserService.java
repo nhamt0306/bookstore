@@ -1,6 +1,8 @@
 package edu.hcmute.bookstore.service;
 
+import edu.hcmute.bookstore.model.ProductEntity;
 import edu.hcmute.bookstore.model.UserEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,4 +21,5 @@ public interface UserService {
     UserEntity changeUserPasswordByEmail(String email, String newPassword);
     String getCheckValidEmailOTP(String username, String emailRegister);
     void deleteByEmail(String email);
+    UserEntity uploadAvatar(MultipartFile image);
 }

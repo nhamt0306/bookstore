@@ -4,15 +4,19 @@ import edu.hcmute.bookstore.config.EmailTemplate;
 import edu.hcmute.bookstore.config.LocalVariable;
 import edu.hcmute.bookstore.exception.BadRequest;
 import edu.hcmute.bookstore.exception.ResourceNotFoundException;
+import edu.hcmute.bookstore.model.ProductEntity;
 import edu.hcmute.bookstore.model.RoleEntity;
 import edu.hcmute.bookstore.model.UserEntity;
 import edu.hcmute.bookstore.repository.RoleRepository;
 import edu.hcmute.bookstore.repository.UserRepository;
+import edu.hcmute.bookstore.security.principal.UserDetailService;
+import edu.hcmute.bookstore.service.CloudinaryService;
 import edu.hcmute.bookstore.service.EmailSenderService;
 import edu.hcmute.bookstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
 import java.sql.Timestamp;
@@ -30,6 +34,10 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private EmailSenderService emailSenderService;
+    @Autowired
+    UserDetailService userDetailService;
+    @Autowired
+    CloudinaryService cloudinaryService;
 
 
     @Override
@@ -148,6 +156,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteByEmail(String email) {
         userRepository.deleteByUserEmail(email);
+    }
+
+    @Override
+    public UserEntity uploadAvatar(MultipartFile image) {
+        UserEntity user = userDetailService.getCurrentUser();
+        String imageUrl = cloudinaryService.uploadFile(image,String.valueOf(user.getId()),
+                "BookStore"+ "/" + "Avatar");
+        if(!imageUrl.equals("-1")) {
+            user.setAvatar(imageUrl);
+        }
+        else if(user.getAvatar().equals("") || user.getAvatar().equals("-1"))
+            user.setAvatar("");
+
+        return userRepository.save(user);
     }
 
     public void sendCheckEmailByOTP(String addressGmail, String username, String otpCode) throws MessagingException {

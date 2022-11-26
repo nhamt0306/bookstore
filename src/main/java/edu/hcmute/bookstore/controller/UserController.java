@@ -43,7 +43,7 @@ public class UserController {
         List<UserMapper> userMappers = new ArrayList<>();
         for(UserEntity user : userEntityList)
         {
-            UserMapper userMapper = new UserMapper(user.getId(), user.getUsername(), user.getFullName(), user.getUserPhone(), user.getUserEmail(), user.getPassword(), user.getUserAddress(), user.getUserGender(), user.getUserDob(), user.getRoles());
+            UserMapper userMapper = new UserMapper(user.getId(), user.getUsername(), user.getFullName(), user.getUserPhone(), user.getUserEmail(), user.getPassword(), user.getUserAddress(), user.getUserGender(), user.getUserDob(), user.getRoles(), user.getAvatar());
             userMappers.add(userMapper);
         }
         return ResponseEntity.ok(userMappers);
@@ -53,7 +53,7 @@ public class UserController {
     @GetMapping("/user/profile")
     public ResponseEntity<?> getCurUser(){
         UserEntity user = userDetailService.getCurrentUser();
-        UserMapper userMapper = new UserMapper(user.getId(), user.getUsername(), user.getFullName(), user.getUserPhone(), user.getUserEmail(), user.getPassword(), user.getUserAddress(), user.getUserGender(), user.getUserDob(), user.getRoles());
+        UserMapper userMapper = new UserMapper(user.getId(), user.getUsername(), user.getFullName(), user.getUserPhone(), user.getUserEmail(), user.getPassword(), user.getUserAddress(), user.getUserGender(), user.getUserDob(), user.getRoles(), user.getAvatar());
         return ResponseEntity.ok(userMapper);
     }
 
@@ -61,7 +61,7 @@ public class UserController {
     public ResponseEntity<?> getUserById(@PathVariable long id){
         try {
             UserEntity user = userService.findById(id).get();
-            UserMapper userMapper = new UserMapper(user.getId(), user.getUsername(), user.getFullName(), user.getUserPhone(), user.getUserEmail(), user.getPassword(), user.getUserAddress(), user.getUserGender(), user.getUserDob(), user.getRoles());
+            UserMapper userMapper = new UserMapper(user.getId(), user.getUsername(), user.getFullName(), user.getUserPhone(), user.getUserEmail(), user.getPassword(), user.getUserAddress(), user.getUserGender(), user.getUserDob(), user.getRoles(), user.getAvatar());
             return ResponseEntity.ok(userMapper);
         }
         catch (Exception e)
@@ -93,6 +93,10 @@ public class UserController {
         if (userEntity.getUserGender() != null)
         {
             user.setUserGender(userEntity.getUserGender());
+        }
+        if (userEntity.getAvatar() != null)
+        {
+            user.setAvatar(userEntity.getAvatar());
         }
         userService.save(user);
         return "Change user profile success!";

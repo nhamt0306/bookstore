@@ -19,6 +19,7 @@ public class UserMapper {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Timestamp userDob;
     Set<RoleEntity> roles = new HashSet<>();
+    private String avatar;
 
     public UserMapper(Long id, String username, String fullName, String userPhone, String userEmail, String password, String userAddress, String userGender, Timestamp userDob) {
         this.id = id;
@@ -43,6 +44,28 @@ public class UserMapper {
         this.userGender = userGender;
         this.userDob = userDob;
         this.roles = roles;
+    }
+
+    public UserMapper(Long id, String username, String fullName, String userPhone, String userEmail, String password, String userAddress, String userGender, Timestamp userDob, Set<RoleEntity> roles, String avatar) {
+        this.id = id;
+        this.username = username;
+        this.fullName = fullName;
+        this.userPhone = userPhone;
+        this.userEmail = userEmail;
+        this.password = password;
+        this.userAddress = userAddress;
+        this.userGender = userGender;
+        this.userDob = userDob;
+        this.roles = roles;
+        this.avatar = avatar;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public Long getId() {

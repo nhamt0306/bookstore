@@ -26,6 +26,7 @@ public class UserEntity extends BaseEntity {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Timestamp userDob;
     private String userStatus = "Active";
+    private String avatar;
 
     // Relationship with table AddressEntity
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
@@ -76,6 +77,14 @@ public class UserEntity extends BaseEntity {
         this.userEmail = email;
         this.userPhone = phonenumber;
         this.password = encode;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public Long getId() {

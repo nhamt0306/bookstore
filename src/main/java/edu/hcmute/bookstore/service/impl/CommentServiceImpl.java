@@ -26,4 +26,14 @@ public class CommentServiceImpl implements CommentService {
     public List<CommentEntity> getAllByProductId(Long productId) {
         return commentRepository.getAllByProductEntityId(productId);
     }
+
+    @Override
+    public Integer getTotalCommentByUser(Long userId) {
+        return commentRepository.getTotalComment(userId);
+    }
+
+    @Override
+    public List<CommentEntity> getAllCommentByRating(Long rating, Long productId) {
+        return commentRepository.filterCommentByRating(rating, productId);
+    }
 }

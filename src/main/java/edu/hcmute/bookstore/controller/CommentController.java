@@ -3,6 +3,7 @@ package edu.hcmute.bookstore.controller;
 import edu.hcmute.bookstore.config.LocalVariable;
 import edu.hcmute.bookstore.dto.CategoryDTO;
 import edu.hcmute.bookstore.dto.CommentDTO;
+import edu.hcmute.bookstore.dto.RatingDTO;
 import edu.hcmute.bookstore.mapper.CommentMapper;
 import edu.hcmute.bookstore.mapper.ProductMapper;
 import edu.hcmute.bookstore.model.CategoryEntity;
@@ -40,7 +41,19 @@ public class CommentController {
         for(CommentEntity commentEntity : commentService.getAllByProductId(id))
         {
             UserEntity user= userService.findById(commentEntity.getUserId()).get();
-            CommentMapper commentMapper = new CommentMapper(commentEntity.getId(), commentEntity.getComContent(), commentEntity.getComRating(), user.getFullName());
+            CommentMapper commentMapper = new CommentMapper(commentEntity.getId(), commentEntity.getComContent(), commentEntity.getComRating(), user.getFullName(), user.getAvatar(), commentService.getTotalCommentByUser(user.getId()));
+            commentMappers.add(commentMapper);
+        }
+        return ResponseEntity.ok(commentMappers);
+    }
+
+    @GetMapping("/comment/product/rating")
+    public ResponseEntity<?> getAllCommentByProductAndRating(@RequestBody RatingDTO ratingDTO){
+        List<CommentMapper> commentMappers = new ArrayList<>();
+        for(CommentEntity commentEntity : commentService.getAllCommentByRating(ratingDTO.getRating(), ratingDTO.getProductId()))
+        {
+            UserEntity user= userService.findById(commentEntity.getUserId()).get();
+            CommentMapper commentMapper = new CommentMapper(commentEntity.getId(), commentEntity.getComContent(), commentEntity.getComRating(), user.getFullName(), user.getAvatar(), commentService.getTotalCommentByUser(user.getId()));
             commentMappers.add(commentMapper);
         }
         return ResponseEntity.ok(commentMappers);
