@@ -33,6 +33,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -86,6 +87,8 @@ public class AuthenticationController {
         });
         user.setRoles(roles);
         user.setCartEntity(new CartEntity(user.getId()));
+        user.setCreate_at(new Timestamp(System.currentTimeMillis()));
+        user.setUpdate_at(new Timestamp(System.currentTimeMillis()));
         userService.save(user);
         cartService.save(user.getId());
         return new ResponseEntity<>(new ResponseMessage("Tạo user thành công!", "true"), HttpStatus.OK);

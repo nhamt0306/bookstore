@@ -1,5 +1,6 @@
 package edu.hcmute.bookstore.controller;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import edu.hcmute.bookstore.config.LocalVariable;
 import edu.hcmute.bookstore.dto.CategoryDTO;
 import edu.hcmute.bookstore.dto.CommentDTO;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 @RestController
@@ -41,7 +43,10 @@ public class CommentController {
         for(CommentEntity commentEntity : commentService.getAllByProductId(id))
         {
             UserEntity user= userService.findById(commentEntity.getUserId()).get();
-            CommentMapper commentMapper = new CommentMapper(commentEntity.getId(), commentEntity.getComContent(), commentEntity.getComRating(), user.getFullName(), user.getAvatar(), commentService.getTotalCommentByUser(user.getId()));
+            Timestamp createDate = user.getCreate_at();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(createDate);
+            CommentMapper commentMapper = new CommentMapper(commentEntity.getId(), commentEntity.getComContent(), commentEntity.getComRating(), user.getFullName(), user.getAvatar(), commentService.getTotalCommentByUser(user.getId()), "Tham gia từ "+ calendar.get(Calendar.MONTH) +"/" + calendar.get(Calendar.YEAR));
             commentMappers.add(commentMapper);
         }
         return ResponseEntity.ok(commentMappers);
@@ -53,7 +58,10 @@ public class CommentController {
         for(CommentEntity commentEntity : commentService.getAllCommentByRating(ratingDTO.getRating(), ratingDTO.getProductId()))
         {
             UserEntity user= userService.findById(commentEntity.getUserId()).get();
-            CommentMapper commentMapper = new CommentMapper(commentEntity.getId(), commentEntity.getComContent(), commentEntity.getComRating(), user.getFullName(), user.getAvatar(), commentService.getTotalCommentByUser(user.getId()));
+            Timestamp createDate = user.getCreate_at();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(createDate);
+            CommentMapper commentMapper = new CommentMapper(commentEntity.getId(), commentEntity.getComContent(), commentEntity.getComRating(), user.getFullName(), user.getAvatar(), commentService.getTotalCommentByUser(user.getId()), "Tham gia từ "+ calendar.get(Calendar.MONTH) +"/" + calendar.get(Calendar.YEAR));
             commentMappers.add(commentMapper);
         }
         return ResponseEntity.ok(commentMappers);

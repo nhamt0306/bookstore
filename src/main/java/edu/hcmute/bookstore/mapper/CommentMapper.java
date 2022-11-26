@@ -7,14 +7,24 @@ public class CommentMapper {
     private String userFullName;
     private String userAvatar;
     private Integer totalComment;
+    private String userCreater;
 
-    public CommentMapper(Long id, String comContent, Long comRating, String userFullName, String avatar, Integer totalComment) {
+    public CommentMapper(Long id, String comContent, Long comRating, String userFullName, String avatar, Integer totalComment, String userCreater) {
         this.id = id;
         this.comContent = comContent;
         this.comRating = comRating;
         this.userFullName = userFullName;
         this.userAvatar =avatar;
         this.totalComment = totalComment;
+        this.userCreater = userCreater;
+    }
+
+    public String getUserCreater() {
+        return userCreater;
+    }
+
+    public void setUserCreater(String userCreater) {
+        this.userCreater = userCreater;
     }
 
     public String getUserAvatar() {
