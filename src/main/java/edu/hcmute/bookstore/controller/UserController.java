@@ -72,7 +72,7 @@ public class UserController {
 
     @PostMapping("/user/profile/change")
     public Object changeProfile(@RequestBody UserEntity userEntity) throws ParseException {
-        UserEntity user = userService.findByUsername(userEntity.getUsername()).get();
+        UserEntity user = userDetailService.getCurrentUser();
         user.setUpdate_at(new Timestamp(System.currentTimeMillis()));
         if (userEntity.getFullName() != null)
         {
@@ -107,21 +107,22 @@ public class UserController {
         UserEntity user = userDetailService.getCurrentUser();
         if (changePasswordDTO.getNewPassword().equals(changePasswordDTO.getRePassword()))
         {
-            if (passwordEncoder.encode(changePasswordDTO.getCurPassword()).equals(user.getPassword()))
+            if (passwordEncoder.matches(changePasswordDTO.getCurPassword(), user.getPassword()))
             {
                 user.setPassword(passwordEncoder.encode(changePasswordDTO.getNewPassword()));
+                userService.save(user);
             }
             else
             {
-                return "Password is incorrect!";
+                return new ResponseEntity<>("Password incorrect", HttpStatus.BAD_REQUEST);
             }
         }
         else
         {
-            return "Re-password is incorrect!";
+            return new ResponseEntity<>("Confirm-password is incorrect!", HttpStatus.BAD_REQUEST);
         }
 
-        return "Change password success!";
+        return new ResponseEntity<>("Changed password successfully", HttpStatus.OK);
     }
 
     @PostMapping("admin/users/uprole")

@@ -27,6 +27,7 @@ public class UserEntity extends BaseEntity {
     private Timestamp userDob;
     private String userStatus = "Active";
     private String avatar;
+    private String otp;
 
     // Relationship with table AddressEntity
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
@@ -85,6 +86,14 @@ public class UserEntity extends BaseEntity {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public String getOtp() {
+        return otp;
+    }
+
+    public void setOtp(String otp) {
+        this.otp = otp;
     }
 
     public Long getId() {

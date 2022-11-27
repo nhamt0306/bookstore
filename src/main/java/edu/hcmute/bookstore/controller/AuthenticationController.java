@@ -4,6 +4,7 @@ import edu.hcmute.bookstore.config.EmailTemplate;
 import edu.hcmute.bookstore.config.LocalVariable;
 import edu.hcmute.bookstore.dto.EmailRecoveryDTO;
 import edu.hcmute.bookstore.dto.OtpSendMailResponseDTO;
+import edu.hcmute.bookstore.dto.RecoveryOTP;
 import edu.hcmute.bookstore.exception.BadRequest;
 import edu.hcmute.bookstore.mapper.JwtResponse;
 import edu.hcmute.bookstore.mapper.ResponseMessage;
@@ -117,6 +118,8 @@ public class AuthenticationController {
         }
     }
 
+
+
     @GetMapping(path = "/verifyEmail/getOtp")
     public OtpSendMailResponseDTO verifyEmail(@RequestBody EmailRecoveryDTO email)
     {
@@ -127,6 +130,8 @@ public class AuthenticationController {
         String otpCode = LocalVariable.GetOTP();
         try {
             sendVerifyEmail(email.getEmail(), user.getUsername(), otpCode);
+            user.setOtp(otpCode);
+            userService.save(user);
         } catch (MessagingException e) {
             throw new BadRequest("gmail send fail");
         }
@@ -134,11 +139,12 @@ public class AuthenticationController {
         return new OtpSendMailResponseDTO("Valid", otpCode);
     }
 
+
     public void sendVerifyEmail(String addressGmail, String username, String otpCode) throws MessagingException {
         emailSenderService.sendAsHTML(
                 addressGmail,
                 "Bạn đã Yêu cầu xác thực email cho tài khoản " + username,
-                EmailTemplate.TemplateCheckValidEmail(username, otpCode)
+                EmailTemplate.TemplateRecoveryPassword(username, otpCode)
         );
     }
 

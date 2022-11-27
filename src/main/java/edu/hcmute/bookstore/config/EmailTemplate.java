@@ -29,11 +29,11 @@ public class EmailTemplate {
                 "                        <td style=\"height:80px;\">&nbsp;</td>\n" +
                 "                    </tr>\n" +
                 "                    <tr>\n" +
-                "                        <td style=\"text-align:center;\">\n" +
-                "                          <a href=\"\" title=\"logo\" target=\"_blank\">\n" +
-                "                            <img width=\"400\" height=\"200\" src=\"https://img.freepik.com/free-vector/flat-design-bookstore-logo-template_23-2149325254.jpg?w=2000\" title=\"logo\" alt=\"logo\">\n" +
-                "                          </a>\n" +
-                "                        </td>\n" +
+//                "                        <td style=\"text-align:center;\">\n" +
+//                "                          <a href=\"\" title=\"logo\" target=\"_blank\">\n" +
+//                "                            <img width=\"400\" height=\"200\" src=\"https://img.freepik.com/free-vector/flat-design-bookstore-logo-template_23-2149325254.jpg?w=2000\" title=\"logo\" alt=\"logo\">\n" +
+//                "                          </a>\n" +
+//                "                        </td>\n" +
                 "                    </tr>\n" +
                 "                    <tr>\n" +
                 "                        <td style=\"height:20px;\">&nbsp;</td>\n" +
