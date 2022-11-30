@@ -52,7 +52,7 @@ public class CommentController {
         return ResponseEntity.ok(commentMappers);
     }
 
-    @GetMapping("/comment/product/rating")
+    @PostMapping("/comment/product/rating")
     public ResponseEntity<?> getAllCommentByProductAndRating(@RequestBody RatingDTO ratingDTO){
         List<CommentMapper> commentMappers = new ArrayList<>();
         for(CommentEntity commentEntity : commentService.getAllCommentByRating(ratingDTO.getRating(), ratingDTO.getProductId()))
