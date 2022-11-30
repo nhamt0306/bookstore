@@ -233,14 +233,21 @@ public class OrderController {
             productService.save(productEntity);
         }
 
-        if (orderEntity.getOrdStatus().equals("PENDING") || orderEntity.getOrdStatus().equals("PAID")) // Nếu tình trạng là đang đợi thì mới được hủy
+        if (orderEntity.getOrdStatus().equals(LocalVariable.pendingMessage)) // Nếu tình trạng là đang đợi thì mới được hủy
         {
-            orderEntity.setOrdStatus(LocalVariable.doneMessage);
+            orderEntity.setOrdStatus(LocalVariable.deliveringMessage);
             orderEntity.setUpdate_at(new Timestamp(System.currentTimeMillis()));
             orderService.addNewOrder(orderEntity);
             return "update status order with done: success";
         }
-        return "update status order with done: fail";
+        if (orderEntity.getOrdStatus().equals(LocalVariable.deliveringMessage)) // Nếu tình trạng là đang đợi thì mới được hủy
+        {
+            orderEntity.setOrdStatus(LocalVariable.doneMessage);
+            orderEntity.setUpdate_at(new Timestamp(System.currentTimeMillis()));
+            orderService.addNewOrder(orderEntity);
+            return "update status order success";
+        }
+        return "update status order fail";
     }
     @GetMapping("/get_deliver_fee")
     public Object getShippingFee(@RequestParam String f, @RequestParam String t, @RequestParam String w) {
