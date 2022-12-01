@@ -128,11 +128,14 @@ public class ProductController {
         List<ProductMapper> productMapperList = new ArrayList<>();
         for(ProductEntity productEntity : productService.getAllActive("Active"))
         {
-            ProductMapper productMapper = new ProductMapper(productEntity.getId(),productEntity.getProName(), productEntity.getProDescription(), productEntity.getProContent(), productEntity.getProPrice(), productEntity.getProQuantity(), productEntity.getProSale(), productEntity.getProImage(), productEntity.getCategoryEntity(), productEntity.getAuthorEntity(), productEntity.getPublisherEntity());
-            Double salePrice = Double.valueOf(productEntity.getProPrice()) * Double.valueOf(Double.valueOf(productEntity.getProSale())/Double.valueOf(100));
-            Long curPrice = productEntity.getProPrice() - salePrice.longValue();
-            productMapper.setCurPrice(curPrice);
-            productMapperList.add(productMapper);
+            if (productEntity.getProQuantity() == 0)
+            {
+                ProductMapper productMapper = new ProductMapper(productEntity.getId(),productEntity.getProName(), productEntity.getProDescription(), productEntity.getProContent(), productEntity.getProPrice(), productEntity.getProQuantity(), productEntity.getProSale(), productEntity.getProImage(), productEntity.getCategoryEntity(), productEntity.getAuthorEntity(), productEntity.getPublisherEntity());
+                Double salePrice = Double.valueOf(productEntity.getProPrice()) * Double.valueOf(Double.valueOf(productEntity.getProSale())/Double.valueOf(100));
+                Long curPrice = productEntity.getProPrice() - salePrice.longValue();
+                productMapper.setCurPrice(curPrice);
+                productMapperList.add(productMapper);
+            }
         }
         return ResponseEntity.ok(productMapperList);
     }
