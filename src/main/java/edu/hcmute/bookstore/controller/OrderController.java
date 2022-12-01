@@ -223,11 +223,25 @@ public class OrderController {
     @PostMapping("/admin/order/accept/{id}")
     public Object acceptOrder(@PathVariable long id) {
         OrderEntity orderEntity = orderService.findOrderById(id);
+        // Only update
+        if (orderEntity.getOrdStatus().equals(LocalVariable.deliveringMessage)) // Nếu tình trạng là đang đợi thì mới được hủy
+        {
+            orderEntity.setOrdStatus(LocalVariable.doneMessage);
+            orderEntity.setUpdate_at(new Timestamp(System.currentTimeMillis()));
+            orderService.addNewOrder(orderEntity);
+            return "update status order success";
+        }
+
         //update product quantity
+
         List<TransactionEntity> transactionEntities = orderDetailService.getAllByOrderId(orderEntity.getId());
         for (TransactionEntity transactionEntity : transactionEntities)
         {
             ProductEntity productEntity = productService.findProductById(transactionEntity.getProductEntity().getId());
+            if (productEntity.getProQuantity() < transactionEntity.getTranQuantity())
+            {
+                return "Enough quantity";
+            }
             productEntity.setProSold(productEntity.getProSold() + transactionEntity.getTranQuantity());
             productEntity.setProQuantity(productEntity.getProQuantity() - transactionEntity.getTranQuantity());
             productService.save(productEntity);
@@ -239,13 +253,6 @@ public class OrderController {
             orderEntity.setUpdate_at(new Timestamp(System.currentTimeMillis()));
             orderService.addNewOrder(orderEntity);
             return "update status order with done: success";
-        }
-        if (orderEntity.getOrdStatus().equals(LocalVariable.deliveringMessage)) // Nếu tình trạng là đang đợi thì mới được hủy
-        {
-            orderEntity.setOrdStatus(LocalVariable.doneMessage);
-            orderEntity.setUpdate_at(new Timestamp(System.currentTimeMillis()));
-            orderService.addNewOrder(orderEntity);
-            return "update status order success";
         }
         return "update status order fail";
     }

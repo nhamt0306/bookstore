@@ -2,6 +2,7 @@ package edu.hcmute.bookstore.service.impl;
 
 import edu.hcmute.bookstore.model.CartProductEntity;
 import edu.hcmute.bookstore.repository.CartProductRepository;
+import edu.hcmute.bookstore.repository.ProductRepository;
 import edu.hcmute.bookstore.security.principal.UserDetailService;
 import edu.hcmute.bookstore.service.CartProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class CartProductServiceImpl implements CartProductService {
     CartProductRepository cartProductRepository;
     @Autowired
     UserDetailService userDetailService;
+    @Autowired
+    ProductRepository productRepository;
 
     @Override
     public CartProductEntity save(CartProductEntity cartProductEntity) {
@@ -47,6 +50,10 @@ public class CartProductServiceImpl implements CartProductService {
     @Override
     public CartProductEntity increaseQuantity(Long productId, Long cartId) {
         CartProductEntity cartProduct = cartProductRepository.findByCartEntityIdAndProductEntityId(cartId, productId);
+        if (cartProduct.getQuantity() >= productRepository.findById(productId).get().getProQuantity())
+        {
+            return null;
+        }
         cartProduct.setQuantity(cartProduct.getQuantity() + 1);
         return cartProductRepository.save(cartProduct);
     }
